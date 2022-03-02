@@ -1,13 +1,19 @@
 import github
-from githubService.githubAccess import getGitHubAccess
-import appSettingsConstants
 import json
+import appSettingsConstants
+
+from githubService.repoAccess import getUserRepos
+from githubService.githubAccess import getGitHubAccess
 
 def getSettings():
     settingsFile = open(appSettingsConstants.SETTINGS_FILE)
     return json.load(settingsFile)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     settings = getSettings()
-
     githubAccess = getGitHubAccess(settings[appSettingsConstants.ACCESS_TOKEN])
+
+    userRepos = getUserRepos(githubAccess)
+
+    for r in userRepos:
+        print(r)
