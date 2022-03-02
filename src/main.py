@@ -1,19 +1,19 @@
-import github
 import json
-import appSettingsConstants
+import appSettingsConstants as constants
+import githubService.branchAccess as branchAccess
+import githubService.repoAccess as repoAccess
 
-from githubService.repoAccess import getUserRepos
 from githubService.githubAccess import getGitHubAccess
 
 def getSettings():
-    settingsFile = open(appSettingsConstants.SETTINGS_FILE)
+    settingsFile = open(constants.SETTINGS_FILE)
     return json.load(settingsFile)
 
 if __name__ == '__main__':
     settings = getSettings()
-    githubAccess = getGitHubAccess(settings[appSettingsConstants.ACCESS_TOKEN])
+    gh = getGitHubAccess(settings[constants.ACCESS_TOKEN], settings[constants.ITEMS_PER_PAGE])
 
-    userRepos = getUserRepos(githubAccess)
+    userRepos = repoAccess.getOrgRepos(gh)
 
     for r in userRepos:
-        print(r)
+        print(r.name)
