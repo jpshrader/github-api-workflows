@@ -3,7 +3,7 @@ import appSettingsConstants as constants
 import githubService.branchAccess as branchAccess
 import githubService.repoAccess as repoAccess
 
-from githubService.githubAccess import getGitHubAccess
+from githubService.githubAccessFactory import getGitHubAccess
 
 def getSettings():
     settingsFile = open(constants.SETTINGS_FILE)

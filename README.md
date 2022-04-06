@@ -18,6 +18,7 @@ This is the GitHub Auditor.
     * Type `>Python: Select Interpreter`
     * Select the `Global` option in the drop down list
         * If there is no `Global` option, try each option until VS Code can resolve the dependencies.
+2. If for whatever reason you commit your Personal Access Token and push it, GitHub will automatically delete that token from your account.
 
 Notes:
 1. [PyGitHub API Reference](https://pygithub.readthedocs.io/en/latest/apis.html)
