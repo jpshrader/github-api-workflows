@@ -12,7 +12,7 @@ if __name__ == '__main__':
     settings = getSettings()
     githubAccess = getGitHubAccess(settings[constants.ACCESS_TOKEN], settings[constants.ITEMS_PER_PAGE])
 
-    userRepos = repoAccess.getOrgRepos(githubAccess)
+    userRepos = repoAccess.getUserRepos(githubAccess)
 
     for r in userRepos:
         print(r.name)
