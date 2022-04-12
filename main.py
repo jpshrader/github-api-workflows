@@ -1,6 +1,5 @@
 import json
 import appSettingsConstants as constants
-import githubService.branchAccess as branchAccess
 import githubService.repoAccess as repoAccess
 
 from githubService.githubAccessFactory import getGitHubAccess
@@ -11,9 +10,9 @@ def getSettings():
 
 if __name__ == '__main__':
     settings = getSettings()
-    gh = getGitHubAccess(settings[constants.ACCESS_TOKEN], settings[constants.ITEMS_PER_PAGE])
+    githubAccess = getGitHubAccess(settings[constants.ACCESS_TOKEN], settings[constants.ITEMS_PER_PAGE])
 
-    userRepos = repoAccess.getOrgRepos(gh)
+    userRepos = repoAccess.getOrgRepos(githubAccess)
 
     for r in userRepos:
         print(r.name)
