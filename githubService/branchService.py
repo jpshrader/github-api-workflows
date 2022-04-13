@@ -1,27 +1,27 @@
 from github import Branch, Repository, Github
 
 # GET BRANCHES
-def getBranches(githubService: Github, repoFullName: str) -> list[Branch.Branch]:
+def getBranches(gh: Github, repoFullName: str) -> list[Branch.Branch]:
     '''Returns all branches of a given repo'''
-    return githubService.get_repo(repoFullName).get_branches()
+    return gh.get_repo(repoFullName).get_branches()
 
 def getBranches(repo: Repository.Repository) -> list[Branch.Branch]:
     '''Returns all branches of a given repo'''
     return repo.get_branches()
 
 # GET BRANCH
-def getBranch(githubService: Github, repoFullName: str, branchName: str) -> Branch.Branch:
+def getBranch(gh: Github, repoFullName: str, branchName: str) -> Branch.Branch:
     '''Returns a given branch of a given repo'''
-    return githubService.get_repo(repoFullName).get_branch(branchName)
+    return gh.get_repo(repoFullName).get_branch(branchName)
 
 def getBranch(repo: Repository.Repository, branchName: str) -> Branch.Branch:
     '''Returns a given branch of a given repo'''
     return repo.get_branch(branchName)
 
 # DELETE BRANCH
-def deleteBranch(githubService: Github, repoFullName: str, branchName: str):
+def deleteBranch(gh: Github, repoFullName: str, branchName: str):
     '''Deletes a given branch of a given repo'''
-    ref = githubService.get_repo(repoFullName).get_git_ref(f"heads/{branchName}")
+    ref = gh.get_repo(repoFullName).get_git_ref(f"heads/{branchName}")
     ref.delete()
 
 def deleteBranch(repo: Repository.Repository, branchName: str):

@@ -10,9 +10,9 @@ def getSettings():
 
 if __name__ == '__main__':
     settings = getSettings()
-    githubService = getGithubService(settings[constants.ACCESS_TOKEN], settings[constants.ITEMS_PER_PAGE])
+    gh = getGithubService(settings[constants.ACCESS_TOKEN], settings[constants.ITEMS_PER_PAGE])
 
-    userRepos = repoService.getUserRepos(githubService)
+    userRepos = repoService.getUserRepos(gh)
 
     for r in userRepos:
         print(r.name)

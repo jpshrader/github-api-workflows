@@ -1,7 +1,7 @@
 from github import Github
 
 def getGithubService(accessToken: str, itemsPerPage: int) -> Github:
-    githubService = Github(accessToken)
-    githubService.per_page = itemsPerPage
+    gh = Github(accessToken)
+    gh.per_page = itemsPerPage
 
-    return githubService
+    return gh

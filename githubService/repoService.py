@@ -1,10 +1,10 @@
 from github import Repository, Github
 
 # GET USER REPOS
-def getUserRepos(githubService: Github) -> list[Repository.Repository]:
+def getUserRepos(gh: Github) -> list[Repository.Repository]:
     '''Returns all repos that the current user owns'''
     ownedRepos = []
-    user = githubService.get_user()
+    user = gh.get_user()
     repos = user.get_repos()
 
     for r in repos:
@@ -14,24 +14,24 @@ def getUserRepos(githubService: Github) -> list[Repository.Repository]:
     return ownedRepos
 
 # GET ORG REPOS
-def getOrgRepos(githubService: Github, orgName: str) -> list[Repository.Repository]:
+def getOrgRepos(gh: Github, orgName: str) -> list[Repository.Repository]:
     '''Returns all repos that the given organization owns'''
-    return githubService.get_organization(orgName).get_repos()
+    return gh.get_organization(orgName).get_repos()
 
-def getOrgRepo(githubService: Github, orgName: str, repoName: str) -> Repository.Repository:
+def getOrgRepo(gh: Github, orgName: str, repoName: str) -> Repository.Repository:
     '''Returns all repos that the given organization owns'''
-    return githubService.get_organization(orgName).get_repo(repoName)
+    return gh.get_organization(orgName).get_repo(repoName)
 
 # GET REPOS
-def getAllRepos(githubService: Github) -> list[Repository.Repository]:
+def getAllRepos(gh: Github) -> list[Repository.Repository]:
     '''Returns all repos that the current user has access to'''
-    return githubService.get_user().get_repos()
+    return gh.get_user().get_repos()
 
-def getRepoByFullName(githubService: Github, repoFullName: str) -> Repository.Repository:
+def getRepoByFullName(gh: Github, repoFullName: str) -> Repository.Repository:
     '''Returns a repo by its full name (ex. "{owner}/{repo}"'''
-    return githubService.get_repo(repoFullName)
+    return gh.get_repo(repoFullName)
 
 # DELETE REPO
-def deleteRepo(githubService: Github, repoFullName: str):
+def deleteRepo(gh: Github, repoFullName: str):
     '''Deletes a given repo by its full name'''
-    githubService.get_repo(repoFullName).delete()
+    gh.get_repo(repoFullName).delete()
