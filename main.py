@@ -1,8 +1,8 @@
 import json
 import appSettingsConstants as constants
-import githubService.repoAccess as repoAccess
+import githubService.repoService as repoService
 
-from githubService.githubAccessFactory import getGitHubAccess
+from githubService.githubServiceFactory import getGithubService
 
 def getSettings():
     settingsFile = open(constants.SETTINGS_FILE)
@@ -10,9 +10,9 @@ def getSettings():
 
 if __name__ == '__main__':
     settings = getSettings()
-    githubAccess = getGitHubAccess(settings[constants.ACCESS_TOKEN], settings[constants.ITEMS_PER_PAGE])
+    githubService = getGithubService(settings[constants.ACCESS_TOKEN], settings[constants.ITEMS_PER_PAGE])
 
-    userRepos = repoAccess.getUserRepos(githubAccess)
+    userRepos = repoService.getUserRepos(githubService)
 
     for r in userRepos:
         print(r.name)
