@@ -1,5 +1,5 @@
 from unittest import TestCase
 
-class TODO_Test(TestCase):
+class noop(TestCase):
     def test_always_passes(self):
         self.assertTrue(True)
