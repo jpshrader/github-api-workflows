@@ -1,18 +1,32 @@
 from github import PullRequest, PullRequestMergeStatus, Repository, Github
 
+from githubService.repoService import getRepoByFullName
+
 # GET PR
 def getPullRequests(gh: Github, repoFullName: str) -> list[PullRequest.PullRequest]:
     '''Returns all pull requests of a given repo'''
-    return gh.get_repo(repoFullName).get_pulls()
+    return getPullRequestsFromRepo(getRepoByFullName(gh, repoFullName))
 
-def getPullRequest(gh: Github, repoFullName: str, prId: str) -> PullRequest.PullRequest:
+def getPullRequest(gh: Github, repoFullName: str, prId: int) -> PullRequest.PullRequest:
     '''Returns a given pull request of a given repo'''
-    return gh.get_repo(repoFullName).get_pull(prId)
+    return getPullRequestFromRepo(getRepoByFullName(gh, repoFullName), prId)
+
+def getPullRequestsFromRepo(repo: Repository.Repository) -> list[PullRequest.PullRequest]:
+    '''Returns all pull requests of a given repo'''
+    return repo.get_pulls()
+
+def getPullRequestFromRepo(repo: Repository.Repository, prId: int) -> PullRequest.PullRequest:
+    '''Returns a given pull request of a given repo'''
+    return repo.get_pull(prId)
 
 # MERGE PR
-def mergePullRequest(gh: Github, repoFullName: str, prId: str) -> PullRequestMergeStatus.PullRequestMergeStatus:
+def mergePullRequestByRepo(gh: Github, repoFullName: str, prId: int) -> PullRequestMergeStatus.PullRequestMergeStatus:
     '''Merges a given pull request of a given repo'''
-    return getPullRequest(gh, repoFullName, prId).merge()
+    return mergePullRequest(getPullRequest(gh, repoFullName, prId))
+
+def mergePullRequestByRepo(repo: Repository.Repository, prId: int) -> PullRequestMergeStatus.PullRequestMergeStatus:
+    '''Merges a given pull request of a given repo'''
+    return mergePullRequest(getPullRequestFromRepo(repo, prId))
 
 def mergePullRequest(pullRequest: PullRequest.PullRequest) -> PullRequestMergeStatus.PullRequestMergeStatus:
     '''Merges a given pull request'''
@@ -24,11 +38,22 @@ def closePullRequest(pullRequest: PullRequest.PullRequest):
     pullRequest.state = "closed"
     pullRequest.edit()
 
+def closePullRequestByRepo(repo: Repository.Repository, prId: int):
+    '''Closes a given pull request'''
+    pullRequest = getPullRequest(repo, prId)
+    closePullRequest(pullRequest)
+
+def closePullRequestByName(gh: Github, repoFullName: str, prId: int):
+    '''Closes a given pull request'''
+    pullRequest = getPullRequest(gh, repoFullName, prId)
+    closePullRequest(pullRequest)
+
 # CREATE PR
 def createPullRequest(gh: Github, repoFullName: str, title: str, body: str, toBranch: str, fromBranch: str, isDraft: bool) -> PullRequest.PullRequest:
     '''Creates a Pull Request between two refs (ex. 'head/main')'''
-    return gh.get_repo(repoFullName).create_pull(title, body, base=toBranch, head=fromBranch, draft=isDraft)
+    repo = gh.get_repo(repoFullName)
+    return createPullRequestByRepo(repo, title, body, toBranch, fromBranch, isDraft)
 
-def createPullRequest(repo: Repository.Repository, title: str, body: str, toBranch: str, fromBranch: str, isDraft: bool) -> PullRequest.PullRequest:
+def createPullRequestByRepo(repo: Repository.Repository, title: str, body: str, toBranch: str, fromBranch: str, isDraft: bool) -> PullRequest.PullRequest:
     '''Creates a Pull Request between two refs (ex. 'head/main')'''
     return repo.create_pull(title, body, base=toBranch, head=fromBranch, draft=isDraft)

@@ -32,6 +32,10 @@ def getRepoByFullName(gh: Github, repoFullName: str) -> Repository.Repository:
     return gh.get_repo(repoFullName)
 
 # DELETE REPO
-def deleteRepo(gh: Github, repoFullName: str):
+def deleteRepoByFullName(gh: Github, repoFullName: str):
     '''Deletes a given repo by its full name'''
-    gh.get_repo(repoFullName).delete()
+    deleteRepo(getRepoByFullName(gh, repoFullName))
+
+def deleteRepo(repo: Repository.Repository):
+    '''Deletes a given repo'''
+    repo.delete()

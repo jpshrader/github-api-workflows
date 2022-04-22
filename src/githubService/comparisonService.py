@@ -1,20 +1,21 @@
 from github import Branch, Repository, Comparison, Github
 
+from githubService.branchService import getBranchFromRepo
+from githubService.repoService import getRepoByFullName
+
 # GET COMPARISON
 def compareBranches(gh: Github, repoFullName: str, toBranch: str, fromBranch: str) -> Comparison.Comparison:
     '''Comparies two branches within the same repo'''
-    repo = gh.get_repo(repoFullName)
-    targetBranch = repo.get_branch(toBranch)
-    originBranch = repo.get_branch(fromBranch)
-    return repo.compare(targetBranch.commit.commit.sha, originBranch.commit.commit.sha)
+    repo = getRepoByFullName(gh, repoFullName)
+    return compareBranchesWithRepo(repo, toBranch, fromBranch)
 
-def compareBranches(repo: Repository.Repository, toBranch: str, fromBranch: str) -> Comparison.Comparison:
+def compareBranchesWithRepo(repo: Repository.Repository, toBranch: str, fromBranch: str) -> Comparison.Comparison:
     '''Comparies two branches within the same repo'''
-    targetBranch = repo.get_branch(toBranch)
-    originBranch = repo.get_branch(fromBranch)
-    return repo.compare(targetBranch.commit.commit.sha, originBranch.commit.commit.sha)
+    targetBranch = getBranchFromRepo(repo, toBranch)
+    originBranch = getBranchFromRepo(repo, fromBranch)
+    return compareBranchesWithRepoAndBranches(repo, targetBranch, originBranch)
 
-def compareBranches(repo: Repository.Repository, toBranch: Branch.Branch, fromBranch: Branch.Branch) -> Comparison.Comparison:
+def compareBranchesWithRepoAndBranches(repo: Repository.Repository, toBranch: Branch.Branch, fromBranch: Branch.Branch) -> Comparison.Comparison:
     '''Comparies two branches within the same repo'''
     return repo.compare(toBranch.commit.commit.sha, fromBranch.commit.commit.sha)
 
@@ -23,6 +24,16 @@ def isAhead(comparison: Comparison.Comparison) -> bool:
     '''Branch is 1 or more commits ahead of target'''
     return comparison.ahead_by > 0
 
+def isBranchAhead(repo: Repository.Repository, toBranch: Branch.Branch, fromBranch: Branch.Branch) -> bool:
+    '''Branch is 1 or more commits ahead of target'''
+    comparison = compareBranches(repo, toBranch, fromBranch)
+    return isAhead(comparison)
+
 def isBehind(comparison: Comparison.Comparison) -> bool:
     '''Branch is 1 or more commits behind target'''
     return comparison.behind_by > 0
+
+def isBranchBehind(repo: Repository.Repository, toBranch: Branch.Branch, fromBranch: Branch.Branch) -> bool:
+    '''Branch is 1 or more commits behind target'''
+    comparison = compareBranches(repo, toBranch, fromBranch)
+    return isBehind(comparison)
