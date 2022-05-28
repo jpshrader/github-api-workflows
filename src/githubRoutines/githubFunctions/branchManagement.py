@@ -4,12 +4,12 @@ from githubService.branchService import getBranchFromList, deleteBranchFromRepo
 from githubService.comparisonService import isBranchAhead
 from githubService.repoService import getRepoByFullName
 
-def identifyEmptyBranchesByName(gh: Github, repoFullName: str, targetBranch: str) -> list[Branch.Branch]:
+def identifyEmptyBranches(gh: Github, repoFullName: str, targetBranch: str) -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     repo = gh.get_repo(repoFullName)
     return identifyEmptyBranches(repo, targetBranch)
 
-def identifyEmptyBranches(repo: Repository.Repository, targetBranch: str) -> list[Branch.Branch]:
+def identifyEmptyBranchesWithRepo(repo: Repository.Repository, targetBranch: str) -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     emptyBranches = []
     branches = repo.get_branches()
