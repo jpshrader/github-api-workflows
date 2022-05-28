@@ -1,7 +1,7 @@
 '''GitHub Tag Service'''
 from github import Tag, GitTag, Repository, Github
 
-from repo_service import get_repo_by_full_name
+from src.github_services.repo_service import get_repo_by_full_name
 
 # GET TAGS
 def get_tags(github: Github, repo_full_name: str) -> list[Tag.Tag]:
