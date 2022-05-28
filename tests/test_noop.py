@@ -1,5 +1,8 @@
+'''Placeholder Tests'''
 from unittest import TestCase
 
-class noop(TestCase):
-    def test_always_passes(self):
-        self.assertTrue(True)
+class Noop(TestCase):
+    '''Placeholder Test Fixture'''
+    def test_always_passes(self) -> None:
+        '''Placeholder Test'''
+        self.assertEqual(1, 1)

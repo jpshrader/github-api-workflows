@@ -1,12 +1,19 @@
+'''Application entry point'''
 import json
-import appSettingsConstants as constants
+import app_settings_constants as constants
 
-from githubService.githubServiceFactory import getGithubService
+from github_services.github_service_factory import get_github_service
+from github_services.repo_service import get_user_repos
 
-def getSettings():
-    settingsFile = open(constants.SETTINGS_FILE)
-    return json.load(settingsFile)
+def get_settings() -> None:
+    '''Retrieving application settings from appSettings.json'''
+    file = open(file=constants.SETTINGS_FILE, encoding="utf8")
+    return json.load(file)
 
 if __name__ == '__main__':
-    settings = getSettings()
-    gh = getGithubService(settings[constants.ACCESS_TOKEN], settings[constants.ITEMS_PER_PAGE])
+    settings = get_settings()
+    github = get_github_service(settings[constants.ACCESS_TOKEN], settings[constants.ITEMS_PER_PAGE])
+
+    repos = get_user_repos(github)
+    for repo in repos:
+        print(repo.name)
