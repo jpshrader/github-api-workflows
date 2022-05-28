@@ -1,7 +1,7 @@
 '''GitHub Branch Service'''
 from github import Branch, Repository, Github
 
-from src.github_services.repo_service import get_repo_by_full_name
+from github_services.repo_service import get_repo_by_full_name
 
 # GET BRANCHES
 def get_branches(github: Github, repo_full_name: str) -> list[Branch.Branch]:

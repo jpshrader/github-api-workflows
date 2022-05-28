@@ -1,7 +1,7 @@
 '''GitHub Release Service'''
 from github import GitRelease, Tag, GitTag, Repository, Github
 
-from src.github_services.repo_service import get_repo_by_full_name
+from github_services.repo_service import get_repo_by_full_name
 
 # GET RELEASES
 def get_releases(github: Github, repo_full_name: str) -> list[GitRelease.GitRelease]:

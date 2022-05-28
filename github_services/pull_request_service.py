@@ -1,7 +1,7 @@
 '''GitHub Pull Request Service'''
 from github import PullRequest, PullRequestMergeStatus, Repository, Github
 
-from src.github_services.repo_service import get_repo_by_full_name
+from github_services.repo_service import get_repo_by_full_name
 
 # GET PR
 def get_pull_requests(github: Github, repo_full_name: str) -> list[PullRequest.PullRequest]:

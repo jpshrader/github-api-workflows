@@ -2,9 +2,9 @@
 import json
 import app_settings_constants as constants
 
-from src.github_services.github_service_factory import get_github_service
-from src.github_services.branch_service import get_branches_by_repo
-from src.github_services.repo_service import get_user_repos
+from github_services.github_service_factory import get_github_service
+from github_services.branch_service import get_branches_by_repo
+from github_services.repo_service import get_user_repos
 
 def get_settings() -> None:
     '''Retrieving application settings from appSettings.json'''

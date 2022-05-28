@@ -1,8 +1,8 @@
 '''GitHub Branch Comparison Service'''
 from github import Branch, Repository, Comparison, Github
 
-from src.github_services.branch_service import get_branch_from_repo
-from src.github_services.repo_service import get_repo_by_full_name
+from github_services.branch_service import get_branch_from_repo
+from github_services.repo_service import get_repo_by_full_name
 
 # GET COMPARISON
 def compare_branches(github: Github, repo_full_name: str, to_branch: str, from_branch: str) -> Comparison.Comparison:

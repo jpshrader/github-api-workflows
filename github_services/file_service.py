@@ -1,7 +1,7 @@
 '''GitHub File Service'''
 from github import ContentFile, Repository, Commit, Github
 
-from src.github_services.repo_service import get_repo_by_full_name
+from github_services.repo_service import get_repo_by_full_name
 
 # GET FILES
 def get_files(github: Github, repo_full_name: str, path: str) -> list[ContentFile.ContentFile] | ContentFile.ContentFile:

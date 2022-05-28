@@ -1,9 +1,9 @@
 '''Branch Management Service'''
 from github import Github, Branch, Repository
 
-from src.github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list
-from src.github_services.comparison_service import is_branch_ahead
-from src.github_services.repo_service import get_repo_by_full_name
+from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list
+from github_services.comparison_service import is_branch_ahead
+from github_services.repo_service import get_repo_by_full_name
 
 def identify_empty_branches(github: Github, repo_full_name: str, taget_branch: str) -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
