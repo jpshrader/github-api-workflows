@@ -2,4 +2,6 @@
 max-line-length=240
 max-args=10
 
-disable=unsupported-binary-operation
+disable=
+    unsupported-binary-operation,
+    consider-using-with
