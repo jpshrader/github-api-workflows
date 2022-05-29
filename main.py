@@ -1,6 +1,6 @@
 '''Application entry point'''
 import json
-import app_settings_constants as constants
+import settings_constants as constants
 
 from github_services.github_service_factory import get_github_service
 from github_services.branch_service import get_branches_by_repo
