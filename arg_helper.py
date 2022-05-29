@@ -7,7 +7,7 @@ FILE_DATA_ARG = 'file_data'
 FILE_PATH_ARG = 'file_path'
 FILE_TYPE_ARG = 'file_type'
 
-class CommandLineArgs:
+class CommandLineArgs: # pylint: disable=too-few-public-methods
     '''Command line argument object'''
     data: str
     data_type: str

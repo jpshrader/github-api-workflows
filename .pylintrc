@@ -1,7 +1,6 @@
 [FORMAT]
 max-line-length=240
 max-args=10
-too-few-public-methods=0
 
 disable=
     unsupported-binary-operation,
