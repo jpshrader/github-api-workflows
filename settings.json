@@ -1,20 +1,3 @@
 {
-    "gitHubApiAccessToken": "",
-    "gitHubApiItemsPerPage": 100,
-    "purgeRules": {
-        "requireSignOff": true,
-        "maxDays": 0,
-        "isMerged": true
-    },
-    "branchFilters": {
-        "branchNamePattern": "",
-        "branchNameMatchTechnique": "Contains"
-    },
-    "repoFilters": {
-        "searchAllRepos": false,
-        "reposByOrgName": "",
-        "reposToAudit": [
-            ""
-        ]
-    }
+    "gitHubApiItemsPerPage": 100
 }
