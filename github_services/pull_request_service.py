@@ -57,6 +57,4 @@ def create_pull_request(github: Github, repo_full_name: str, title: str, body: s
 
 def create_pull_request_by_repo(repo: Repository.Repository, title: str, body: str, to_branch: str, from_branch: str, is_draft: bool) -> PullRequest.PullRequest:
     '''Creates a Pull Request between two branch names (ex. 'main')'''
-    print(f'base: {to_branch}')
-    print(f'head: {from_branch}')
     return repo.create_pull(title, body, base=to_branch, head=from_branch, draft=is_draft)

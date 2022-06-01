@@ -12,9 +12,8 @@ def update_branch(github: Github, repo_full_name: str, from_branch: str, to_bran
     new_branch_name = f'merge-{from_branch}-to-{to_branch}-{date.today()}'
     create_branch(github, repo_full_name, from_branch, new_branch_name)
 
-    pr_name = 'Merge {from_branch} to {to_branch}'
+    pr_name = f'Merge {from_branch} to {to_branch}'
     return create_pull_request(github, repo_full_name, pr_name, '', to_branch, new_branch_name, is_draft=True)
-
 
 def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str) -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
