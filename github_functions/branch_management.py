@@ -13,7 +13,7 @@ def update_branch(github: Github, repo_full_name: str, from_branch: str, to_bran
     create_branch(github, repo_full_name, from_branch, new_branch_name)
 
     pr_name = 'Merge {from_branch} to {to_branch}'
-    return create_pull_request(github, repo_full_name, pr_name, '', f'heads/{new_branch_name}', f'heads/{to_branch}', is_draft=True)
+    return create_pull_request(github, repo_full_name, pr_name, '', f'refs/heads/{to_branch}', f'refs/heads/{new_branch_name}', is_draft=True)
 
 
 def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str) -> list[Branch.Branch]:
