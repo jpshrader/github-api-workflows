@@ -19,10 +19,10 @@ runs:
   using: 'composite'
   steps:
     - uses: actions/checkout@v3
-    - run: echo $GITHUB_ACTION_PATH
-      shell: bash
-    - uses: $GITHUB_ACTION_PATH/.github/workflows/github-utility
+    - uses: $action_url/.github/workflows/github-utility
       with:
         file_type: ${{ inputs.file_type }}
         access_token: ${{ inputs.access_token }}
         instructions: ${{ inputs.username }}
+    env:
+      action_url: $GITHUB_ACTION_PATH
