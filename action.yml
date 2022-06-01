@@ -24,5 +24,5 @@ runs:
         file_type: ${{ inputs.file_type }}
         access_token: ${{ inputs.access_token }}
         instructions: ${{ inputs.username }}
-    env:
-      action_url: $GITHUB_ACTION_PATH
+      env:
+        action_url: $GITHUB_ACTION_PATH
