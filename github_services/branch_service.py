@@ -52,13 +52,13 @@ def create_branch(github: Github, repo_full_name: str, origin_branch_name: str, 
     '''Creates a branch on a given origin on a given repo'''
     repo = get_repo_by_full_name(github, repo_full_name)
     branch = get_branch_from_repo(repo, origin_branch_name)
-    return repo.create_git_ref(new_branch_name, branch.commit.sha)
+    return create_branch_from_repo_and_branch(repo, branch, new_branch_name)
 
 def create_branch_from_repo(repo: Repository.Repository, origin_branch_name: str, new_branch_name: str) -> GitRef.GitRef:
     '''Creates a branch on a given origin on a given repo'''
     branch = get_branch_from_repo(repo, origin_branch_name)
-    return repo.create_git_ref(new_branch_name, branch.commit.sha)
+    return create_branch_from_repo_and_branch(repo, branch, new_branch_name)
 
 def create_branch_from_repo_and_branch(repo: Repository.Repository, origin_branch: Branch.Branch, new_branch_name: str) -> GitRef.GitRef:
     '''Creates a branch on a given origin on a given repo'''
-    return repo.create_git_ref(new_branch_name, origin_branch.commit.sha)
+    return repo.create_git_ref(f'refs/{new_branch_name}', origin_branch.commit.sha)
