@@ -1,26 +1,31 @@
 name: 'GitHub Utility'
 
-inputs:
-  instructions:
-    description: 'List of instructions for Github Utility to complete'
-    type: string
-    required: true
-  file_type:
-    description: 'Type of file being read in'
-    type: choice
-    options:
-      - 'yaml'
-      - 'json'
-    required: true
-  access_token:
-    description: 'GitHub Api Access Token'
-    type: string
-    required: true
+on:
+  workflow_call:
+    inputs:
+      instructions:
+        description: 'List of instructions for Github Utility to complete'
+        type: string
+        required: true
+      file_type:
+        description: 'Type of file being read in'
+        type: choice
+        options:
+          - 'yaml'
+          - 'json'
+        required: true
+      access_token:
+        description: 'GitHub Api Access Token'
+        type: string
+        required: true
 
 jobs:
   execute:
     runs-on: ubuntu-latest
     steps:
+    - name: Echo
+      run: |
+        echo ${{inputs}}
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
