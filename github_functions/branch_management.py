@@ -10,10 +10,10 @@ from github_services.pull_request_service import create_pull_request
 def update_branch(github: Github, repo_full_name: str, from_branch: str, to_branch: str) -> PullRequest.PullRequest:
     '''Opens a Pr to update a given branch'''
     new_branch_name = f'merge-{from_branch}-to-{to_branch}-{date.today()}'
-    new_ref = create_branch(github, repo_full_name, from_branch, new_branch_name)
+    create_branch(github, repo_full_name, from_branch, new_branch_name)
 
     pr_name = 'Merge {from_branch} to {to_branch}'
-    return create_pull_request(github, repo_full_name, pr_name, '', f'refs/heads/{to_branch}', new_ref.ref, is_draft=True)
+    return create_pull_request(github, repo_full_name, pr_name, '', to_branch, new_branch_name, is_draft=True)
 
 
 def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str) -> list[Branch.Branch]:

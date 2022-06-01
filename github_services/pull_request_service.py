@@ -50,13 +50,11 @@ def close_pull_request_by_name(github: Github, repo_full_name: str, pr_id: int) 
     close_pull_request(pull_request)
 
 # CREATE PR
-def create_pull_request(github: Github, repo_full_name: str, title: str, body: str, to_branch_ref: str, from_branch_ref: str, is_draft: bool) -> PullRequest.PullRequest:
-    '''Creates a Pull Request between two refs (ex. 'refs/heads/main')'''
+def create_pull_request(github: Github, repo_full_name: str, title: str, body: str, to_branch: str, from_branch: str, is_draft: bool) -> PullRequest.PullRequest:
+    '''Creates a Pull Request between two branch names (ex. 'main')'''
     repo = github.get_repo(repo_full_name)
-    return create_pull_request_by_repo(repo, title, body, to_branch_ref, from_branch_ref, is_draft)
+    return create_pull_request_by_repo(repo, title, body, to_branch, from_branch, is_draft)
 
-def create_pull_request_by_repo(repo: Repository.Repository, title: str, body: str, to_branch_ref: str, from_branch_ref: str, is_draft: bool) -> PullRequest.PullRequest:
-    '''Creates a Pull Request between two refs (ex. 'refs/heads/main')'''
-    to_branch_ref = to_branch_ref.replace('/', '-')
-    from_branch_ref = from_branch_ref.replace('/', '-')
-    return repo.create_pull(title, body, base=to_branch_ref, head=from_branch_ref, draft=is_draft)
+def create_pull_request_by_repo(repo: Repository.Repository, title: str, body: str, to_branch: str, from_branch: str, is_draft: bool) -> PullRequest.PullRequest:
+    '''Creates a Pull Request between two branch names (ex. 'main')'''
+    return repo.create_pull(title, body, base=to_branch, head=from_branch, draft=is_draft)
