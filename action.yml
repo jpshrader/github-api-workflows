@@ -22,8 +22,9 @@ runs:
   using: 'composite'
   steps:
     - uses: actions/checkout@v3
-      repository: jpshrader/github-utilities
-      path: utils
+      with:
+        repository: jpshrader/github-utilities
+        path: utils
     - uses: ./utils/.github/workflows/github-utility
       with:
         file_type: ${{ inputs.file_type }}
