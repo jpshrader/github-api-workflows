@@ -9,7 +9,6 @@ inputs:
     description: 'Type of file being read in'
     type: string
     required: true
-secrets:
   access_token:
     description: 'GitHub Api Access Token'
     type: string
@@ -19,5 +18,5 @@ jobs:
   - uses: ./.github/workflows/github-utility
     with:
       file_type: ${{ inputs.file_type }}
-      access_token: ${{ secrets.access_token }}
+      access_token: ${{ inputs.access_token }}
       instructions: ${{ inputs.username }}

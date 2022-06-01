@@ -14,7 +14,6 @@ on:
           - 'yaml'
           - 'json'
         required: true
-    secrets:
       access_token:
         description: 'GitHub Api Access Token'
         type: string
@@ -35,4 +34,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run Github Utilities
       run: |
-        python main.py --instructions ${{ github.event.inputs.instructions }} --file_type ${{ github.event.inputs.file_type }} --access_token ${{ github.event.secrets.access_token }}
+        python main.py --instructions ${{ github.event.inputs.instructions }} --file_type ${{ github.event.inputs.file_type }} --access_token ${{ github.event.inputs.access_token }}
