@@ -10,4 +10,5 @@ if __name__ == '__main__':
     args = parse_args()
 
     settings = get_file(args.base_path + constants.SETTINGS_FILE, JSON_FILE_TYPE)
+    print(settings)
     github = get_github_service(args.access_token, settings[constants.ITEMS_PER_PAGE])
