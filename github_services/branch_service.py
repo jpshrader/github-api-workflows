@@ -31,18 +31,18 @@ def get_branch_from_list(branches: list[Branch.Branch], branch_name: str) -> Bra
     return None
 
 # DELETE BRANCH
-def delete_branch(github: Github, repo_full_name: str, branch_name: str):
+def delete_branch(github: Github, repo_full_name: str, branch_name: str) -> None:
     '''Deletes a given branch of a given repo'''
     repo = get_repo_by_full_name(github, repo_full_name)
     ref = repo.get_git_ref(repo, f"heads/{branch_name}")
     ref.delete()
 
-def delete_branch_from_repo(repo: Repository.Repository, branch_name: str):
+def delete_branch_from_repo(repo: Repository.Repository, branch_name: str) -> None:
     '''Deletes a given branch of a given repo'''
     ref = repo.get_git_ref(f"heads/{branch_name}")
     ref.delete()
 
-def delete_branch_from_repo_by_branch(repo: Repository.Repository, branch: Branch.Branch):
+def delete_branch_from_repo_by_branch(repo: Repository.Repository, branch: Branch.Branch) -> None:
     '''Deletes a given branch of a given repo'''
     ref = repo.get_git_ref(f"heads/{branch.name}")
     ref.delete()

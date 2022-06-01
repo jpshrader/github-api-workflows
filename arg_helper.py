@@ -1,47 +1,56 @@
 '''Argument parsing utilities'''
 import argparse
 
-from file_helper import get_file, get_data, JSON_FILE_TYPE, YAML_FILE_TYPE
+from file_helper import get_file, get_data, YAML_FILE_TYPE
 
-FILE_DATA_ARG = 'file_data'
-FILE_PATH_ARG = 'file_path'
 FILE_TYPE_ARG = 'file_type'
+INSTRUCTIONS_ARG = 'instructions'
+ACCESS_TOKEN_ARG = 'access_token'
 
 class CommandLineArgs: # pylint: disable=too-few-public-methods
     '''Command line argument object'''
-    data: str
+    data: object
     data_type: str
+    access_token: str
 
-    def __init__(self, data: str, data_type: str):
+    def __init__(self, data: object, data_type: str, access_token: str):
         self.data = data
         self.data_type = data_type
+        self.access_token = access_token
 
 def parse_args() -> CommandLineArgs:
     '''Retrieves command line arguments to this python application'''
     parser = argparse.ArgumentParser()
 
-    parser.add_argument(f'--{FILE_PATH_ARG}', default='', type=str)
-    file_data_action = parser.add_argument(f'--{FILE_DATA_ARG}', default='', type=str)
     file_type_action = parser.add_argument(f'--{FILE_TYPE_ARG}', default='', type=str)
+    instruction_action = parser.add_argument(f'--{INSTRUCTIONS_ARG}', default='', type=str)
+    access_token_action = parser.add_argument(f'--{ACCESS_TOKEN_ARG}', default='', type=str)
 
     args = vars(parser.parse_args())
 
     file_type = args[FILE_TYPE_ARG]
     if file_type == '':
-        raise argparse.ArgumentError(file_type_action, message=f'{FILE_TYPE_ARG} is a required argument')
+        raise_required_arg_error(file_type_action, FILE_TYPE_ARG)
 
-    if file_type not in (JSON_FILE_TYPE, YAML_FILE_TYPE):
-        raise argparse.ArgumentError(file_type_action, message=f'{FILE_TYPE_ARG} must be in: (`{JSON_FILE_TYPE}`, `{YAML_FILE_TYPE}`)')
+    if file_type not in (YAML_FILE_TYPE):
+        raise argparse.ArgumentError(file_type_action, message=f'{FILE_TYPE_ARG} must be in: (`{YAML_FILE_TYPE}`)')
 
-    data_arg = args[FILE_DATA_ARG]
-    file_arg = args[FILE_PATH_ARG]
-    if data_arg == '' and file_arg == '':
-        raise argparse.ArgumentError(file_data_action, message=f'One of `{FILE_DATA_ARG}` or `{FILE_PATH_ARG}` is required')
+    instruction_arg = args[INSTRUCTIONS_ARG]
+    if instruction_arg == '':
+        raise_required_arg_error(instruction_action, INSTRUCTIONS_ARG)
 
-    data = ''
-    if data_arg != '':
-        data = get_data(data_arg, file_type)
+    data = None
+    if instruction_arg != '':
+        data = get_data(instruction_arg, file_type)
     else:
-        data = get_file(data_arg, file_type)
+        data = get_file(instruction_arg, file_type)
 
-    return CommandLineArgs(data, file_type)
+    access_token = args[ACCESS_TOKEN_ARG]
+    if access_token == '':
+        raise_required_arg_error(access_token_action, ACCESS_TOKEN_ARG)
+
+    return CommandLineArgs(data, file_type, access_token)
+
+def raise_required_arg_error(action, arg_name):
+    '''Returns a new ArgumentError for a given argument'''
+    raise argparse.ArgumentError(action, message=f'`{arg_name}` is a required argument')

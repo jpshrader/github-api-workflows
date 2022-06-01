@@ -34,17 +34,17 @@ def merge_pull_request(pull_request: PullRequest.PullRequest) -> PullRequestMerg
     return pull_request.merge()
 
 # CLOSE PR
-def close_pull_request(pull_request: PullRequest.PullRequest):
+def close_pull_request(pull_request: PullRequest.PullRequest) -> None:
     '''Closes a given pull request'''
     pull_request.state = "closed"
     pull_request.edit()
 
-def close_pull_request_by_repo(repo: Repository.Repository, pr_id: int):
+def close_pull_request_by_repo(repo: Repository.Repository, pr_id: int) -> None:
     '''Closes a given pull request'''
     pull_request = get_pull_request_from_repo(repo, pr_id)
     close_pull_request(pull_request)
 
-def close_pull_request_by_name(github: Github, repo_full_name: str, pr_id: int):
+def close_pull_request_by_name(github: Github, repo_full_name: str, pr_id: int) -> None:
     '''Closes a given pull request'''
     pull_request = get_pull_request(github, repo_full_name, pr_id)
     close_pull_request(pull_request)

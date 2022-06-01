@@ -22,7 +22,7 @@ def identify_empty_branches_with_repo(repo: Repository.Repository, taget_branch:
 
     return empty_branches
 
-def delete_empty_branches(github: Github, repo_full_name: str, taget_branch: str):
+def delete_empty_branches(github: Github, repo_full_name: str, taget_branch: str) -> None:
     '''Deletes branches that are empty (not ahead of target branch)'''
     repo = get_repo_by_full_name(github, repo_full_name)
     branches = identify_empty_branches_with_repo(repo, taget_branch)
