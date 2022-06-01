@@ -25,7 +25,7 @@ runs:
       with:
         repository: jpshrader/github-utilities
         path: utils
-    - uses: ./utils/.github/workflows/action.yml
+    - uses: ./utils/.github/workflows
       with:
         file_type: ${{ inputs.file_type }}
         access_token: ${{ inputs.access_token }}
