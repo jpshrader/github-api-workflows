@@ -34,17 +34,17 @@ def get_branch_from_list(branches: list[Branch.Branch], branch_name: str) -> Bra
 def delete_branch(github: Github, repo_full_name: str, branch_name: str) -> None:
     '''Deletes a given branch of a given repo'''
     repo = get_repo_by_full_name(github, repo_full_name)
-    ref = repo.get_git_ref(repo, f"heads/{branch_name}")
+    ref = repo.get_git_ref(repo, f"refs/heads/{branch_name}")
     ref.delete()
 
 def delete_branch_from_repo(repo: Repository.Repository, branch_name: str) -> None:
     '''Deletes a given branch of a given repo'''
-    ref = repo.get_git_ref(f"heads/{branch_name}")
+    ref = repo.get_git_ref(f"refs/heads/{branch_name}")
     ref.delete()
 
 def delete_branch_from_repo_by_branch(repo: Repository.Repository, branch: Branch.Branch) -> None:
     '''Deletes a given branch of a given repo'''
-    ref = repo.get_git_ref(f"heads/{branch.name}")
+    ref = repo.get_git_ref(f"refs/heads/{branch.name}")
     ref.delete()
 
 # CREATE BRANCH
@@ -61,4 +61,4 @@ def create_branch_from_repo(repo: Repository.Repository, origin_branch_name: str
 
 def create_branch_from_repo_and_branch(repo: Repository.Repository, origin_branch: Branch.Branch, new_branch_name: str) -> GitRef.GitRef:
     '''Creates a branch on a given origin on a given repo'''
-    return repo.create_git_ref(f'heads/{new_branch_name}', origin_branch.commit.sha)
+    return repo.create_git_ref(f'refs/heads/{new_branch_name}', origin_branch.commit.sha)
