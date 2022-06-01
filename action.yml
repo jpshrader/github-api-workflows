@@ -1,5 +1,6 @@
 name: 'GitHub Utility'
 description: 'Run a set of  GitHub Utility instructions'
+author: jpshrader
 inputs:
   instructions:
     description: 'List of instructions for Github Utility to complete'
@@ -14,7 +15,7 @@ inputs:
     type: string
     required: true
 
-jobs:
+runs:
   - uses: ./.github/workflows/github-utility
     with:
       file_type: ${{ inputs.file_type }}
