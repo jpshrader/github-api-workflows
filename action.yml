@@ -1,0 +1,23 @@
+name: 'GitHub Utility'
+description: 'Run a set of  GitHub Utility instructions'
+inputs:
+  instructions:
+    description: 'List of instructions for Github Utility to complete'
+    type: string
+    required: true
+  file_type:
+    description: 'Type of file being read in'
+    type: string
+    required: true
+secrets:
+  access_token:
+    description: 'GitHub Api Access Token'
+    type: string
+    required: true
+
+jobs:
+  - uses: ./.github/workflows/github-utility
+    with:
+      file_type: ${{ inputs.file_type }}
+      access_token: ${{ secrets.access_token }}
+      instructions: ${{ inputs.username }}

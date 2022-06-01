@@ -7,14 +7,15 @@ on:
         description: 'List of instructions for Github Utility to complete'
         type: string
         required: true
-      filetype:
+      file_type:
         description: 'Type of file being read in'
         type: choice
         options:
           - 'yaml'
           - 'json'
         required: true
-      accesstoken:
+    secrets:
+      access_token:
         description: 'GitHub Api Access Token'
         type: string
         required: true
@@ -34,4 +35,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run Github Utilities
       run: |
-        python main.py --instructions ${{ github.event.inputs.instructions }} --file_type ${{ github.event.inputs.filetype }} --access_token ${{ github.event.inputs.accesstoken }}
+        python main.py --instructions ${{ github.event.inputs.instructions }} --file_type ${{ github.event.inputs.file_type }} --access_token ${{ github.event.secrets.access_token }}
