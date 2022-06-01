@@ -1,8 +1,8 @@
 '''Argument parsing utilities'''
 import argparse
+from typing import Dict
 
 from file_helper import get_file, YAML_FILE_TYPE
-from instructions import Instructions
 
 BASE_PATH_ARG = 'base_path'
 FILE_TYPE_ARG = 'file_type'
@@ -14,9 +14,9 @@ class CommandLineArgs: # pylint: disable=too-few-public-methods
     data_type: str
     base_path: str
     access_token: str
-    instructions: Instructions
+    instructions: Dict[str, object]
 
-    def __init__(self, instructions: Instructions, data_type: str, base_path: str, access_token: str):
+    def __init__(self, instructions: Dict[str, object], data_type: str, base_path: str, access_token: str):
         self.data_type = data_type
         self.base_path = base_path
         self.access_token = access_token
