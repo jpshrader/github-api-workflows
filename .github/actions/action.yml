@@ -1,24 +1,5 @@
 name: 'GitHub Utility'
 
-on:
-  workflow_call:
-    inputs:
-      instructions:
-        description: 'List of instructions for Github Utility to complete'
-        type: string
-        required: true
-      file_type:
-        description: 'Type of file being read in'
-        type: choice
-        options:
-          - 'yaml'
-          - 'json'
-        required: true
-      access_token:
-        description: 'GitHub Api Access Token'
-        type: string
-        required: true
-
 jobs:
   execute:
     runs-on: ubuntu-latest
@@ -37,4 +18,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run Github Utilities
       run: |
-        python main.py --instructions ${{ inputs.instructions }} --file_type ${{ inputs.file_type }} --access_token ${{ inputs.access_token }}
+        python main.py --instructions ${{ INPUT_INSTRUCTIONS }} --file_type ${{ INPUT_FILE_TYPE }} --access_token ${{ INPUT_FILE_TYPE }}
