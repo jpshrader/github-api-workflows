@@ -36,8 +36,10 @@ def identify_empty_branches(github: Github, repo_full_name: str, target_branch: 
 
 def branch_passes_filters(branch: Branch.Branch, include_filter: str, exclude_filter: str):
     '''Determines whether a branch name is filtered by include/exclude rules'''
-    include_filter_passes = include_filter == '' or include_filter.lower() in branch.name.lower() or include_filter.lower() == branch.name.lower()
-    exclude_filter_passes = exclude_filter == '' or exclude_filter.lower() not in branch.name.lower() or exclude_filter.lower() == branch.name.lower()
+    include_filter_passes = include_filter == '' or include_filter.lower() in branch.name.lower()
+    exclude_filter_passes = exclude_filter == '' or exclude_filter.lower() not in branch.name.lower()
+    print('exclude: ' + exclude_filter)
+    print(exclude_filter.lower() not in branch.name.lower())
 
     return include_filter_passes and exclude_filter_passes
 
