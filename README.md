@@ -10,3 +10,7 @@ References:
 1. [PyGitHub API Reference](https://pygithub.readthedocs.io/en/latest/apis.html)
 2. [PyGitHub API Object Reference](https://pygithub.readthedocs.io/en/latest/github_objects.html)
 3. [Python Requirements file](https://pip.pypa.io/en/stable/reference/requirements-file-format/)
+
+### Usage 
+
+Example usages: https://github.com/jpshrader/github-utilities-examples
