@@ -41,10 +41,11 @@ def merge_branch(github: Github, instruction) -> None:
 def list_empty_branches(github: Github, instruction) -> None:
     '''Lists all empty branches in a given repo'''
     repo_name = retrieve_argument(instruction, 'repo_name')
+    target_branch = retrieve_argument(instruction, 'target_branch', is_required=False, default='')
     include = retrieve_argument(instruction, 'include', is_required=False, default=[])
     exclude = retrieve_argument(instruction, 'exclude', is_required=False, default=[])
 
-    empty_branches = identify_empty_branches(github, repo_name, include=include, exclude=exclude)
+    empty_branches = identify_empty_branches(github, repo_name, target_branch=target_branch, include=include, exclude=exclude)
     print_branch_list(empty_branches, 'EMPTY', repo_name, include, exclude)
 
 def list_unprotected_branches(github: Github, instruction) -> None:

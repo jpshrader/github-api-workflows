@@ -1,5 +1,5 @@
 '''Branch Management Service'''
-from datetime import datetime
+from time import time
 from github import Github, Branch, Repository
 
 from github_services.user_service import get_current_user
@@ -28,8 +28,7 @@ def branch_passes_filters(branch: Branch.Branch, include: list[str], exclude: li
 # MERGE AND PR BRANCH
 def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, to_branch: str, reviewers: list[str], labels: list[str]) -> None:
     '''Opens a Pr to update a given branch'''
-    date_time = datetime.now().strftime("%d-%m-%YT%H-%M-%S")
-    new_branch_name = f'merge-{from_branch}-to-{to_branch}-{date_time}'
+    new_branch_name = f'merge-{from_branch}-to-{to_branch}-{int(time())}'
     repo = get_repo_by_full_name(github, repo_full_name)
     create_branch_from_repo(repo, from_branch, new_branch_name)
 
