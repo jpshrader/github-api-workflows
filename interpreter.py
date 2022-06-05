@@ -21,7 +21,7 @@ def list_empty_branches(github: Github, instruction) -> None:
 
     empty_branches = identify_empty_branches(github, repo_name)
     print('=' * 30)
-    print(f'{empty_branches.count()} EMPTY BRANCHES FOUND IN {repo_name}')
+    print(f'{len(empty_branches)} EMPTY BRANCHES FOUND IN {repo_name}')
     for empty_branch in empty_branches:
         print(f'  - {empty_branch.name}')
 
