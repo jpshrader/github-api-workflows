@@ -1,3 +1,3 @@
 # Contributor Covenant Code of Conduct
 
-This is @jpshrader's repo. [https://youtu.be/8IfTwS7dGz0](https://youtu.be/8IfTwS7dGz0?t=36)
+This is [my](https://github.com/jpshrader) repo. All interations with this repo shall be at my discretion. [https://youtu.be/8IfTwS7dGz0](https://youtu.be/8IfTwS7dGz0?t=36)
