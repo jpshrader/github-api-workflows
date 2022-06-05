@@ -20,9 +20,11 @@ def print_branch_list(branch_list: list[Branch.Branch], action: str, repo_name: 
     print('=' * 30)
     print(f'{len(branch_list)} {action} BRANCHES FOUND IN {repo_name}')
     if include != '':
-        print(f'Include branches containing: {include.lower()}')
+        include_list = include.join(', ')
+        print(f'Include branches containing: {include_list}')
     if exclude != '':
-        print(f'Exclude branches containing: {exclude.lower()}')
+        exclude_list = exclude.join(', ')
+        print(f'Exclude branches containing: {exclude_list}')
     for empty_branch in branch_list:
         print(f'  - {empty_branch.name}')
 
