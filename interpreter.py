@@ -15,15 +15,15 @@ def retrieve_argument(instruction, argument: str, is_required: bool = True, defa
 
     return instruction[argument]
 
-def print_branch_list(branch_list: list[Branch.Branch], action: str, repo_name: str, include: str, exclude: str):
+def print_branch_list(branch_list: list[Branch.Branch], action: str, repo_name: str, include: list[str], exclude: list[str]):
     '''Prints a list of branches associated with a particular action'''
     print('=' * 30)
     print(f'{len(branch_list)} {action} BRANCHES FOUND IN {repo_name}')
     if include != '':
-        include_list = include.join(', ')
+        include_list = ', '.join(include)
         print(f'Include branches containing: {include_list}')
     if exclude != '':
-        exclude_list = exclude.join(', ')
+        exclude_list = ', '.join(exclude)
         print(f'Exclude branches containing: {exclude_list}')
     for empty_branch in branch_list:
         print(f'  - {empty_branch.name}')
