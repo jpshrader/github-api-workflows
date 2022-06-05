@@ -42,7 +42,7 @@ Examples:
 
 #### List Empty Branches
 
-The `list_empty_branches` iterates over every branch in a given repo and prints a list of branches that are:
+The `list_empty_branches` instruction iterates over every branch in a given repo and prints a list of branches that are:
  - Not protected
  - Not the `target_branch`
  - 0 commits ahead of `target_branch`
@@ -67,7 +67,7 @@ Examples:
 
 #### List Unprotected Branches
 
-The `list_unprotected_branches` iterates over every branch in a given repo and prints a list of branches that do not have [protection rules](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)
+The `list_unprotected_branches` instruction iterates over every branch in a given repo and prints a list of branches that do not have [protection rules](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)
 
 Examples:
 ```
