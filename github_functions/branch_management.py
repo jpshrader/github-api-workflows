@@ -19,10 +19,10 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
     pull_request = create_pull_request_by_repo(repo, pr_name, '', to_branch, new_branch_name, is_draft=True)
 
     repo_labels = get_labels_from_repo(repo)
-    for l in labels:
-        for lab in repo_labels:
-            if l == lab.name:
-                pull_request.labels.append(lab)
+    for label in labels:
+        for repo_label in repo_labels:
+            if label == repo_label.name:
+                pull_request.labels.append(repo_label)
 
     pull_request.create_review_request(reviewers)
 
