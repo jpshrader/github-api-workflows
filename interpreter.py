@@ -6,9 +6,9 @@ from github import Github, Branch
 from github_functions.branch_management import identify_empty_branches, merge_branch_and_pr, identify_unprotected_branches
 
 def retrieve_argument(instruction, argument: str, is_required: bool = True):
-    '''Retrives an instruction argument - defaults to empty string if not required'''
+    '''Retrives an instruction argument - defaults to None if not required'''
     if not is_required:
-        value = ''
+        value = None
         if argument in instruction:
             value = instruction[argument]
         return value

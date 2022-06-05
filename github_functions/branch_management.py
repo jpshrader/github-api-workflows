@@ -31,12 +31,12 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
         pull_request.create_review_request(reviewers_to_request)
 
 # IDENTIFY UNPROTECTED BRANCHES
-def identify_unprotected_branches(github: Github, repo_full_name: str, include: str = '', exclude: str = '') -> list[Branch.Branch]:
+def identify_unprotected_branches(github: Github, repo_full_name: str, include: list[str] = None, exclude: list[str] = None) -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     repo = get_repo_by_full_name(github, repo_full_name)
     return identify_unprotected_branches_with_repo(repo, include=include, exclude=exclude)
 
-def identify_unprotected_branches_with_repo(repo: Repository.Repository, include: str = '', exclude: str = '') -> list[Branch.Branch]:
+def identify_unprotected_branches_with_repo(repo: Repository.Repository, include: list[str] = None, exclude: list[str] = None) -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     include = include.strip()
     exclude = exclude.strip()
@@ -50,19 +50,27 @@ def identify_unprotected_branches_with_repo(repo: Repository.Repository, include
     return unprotected_branches
 
 # IDENTIFY EMPTY BRANCHES
-def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str = '', include: str = '', exclude: str = '') -> list[Branch.Branch]:
+def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str = '', include: list[str] = None, exclude: list[str] = None) -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     repo = get_repo_by_full_name(github, repo_full_name)
     return identify_empty_branches_with_repo(repo, target_branch, include=include, exclude=exclude)
 
-def branch_passes_filters(branch: Branch.Branch, include: str, exclude: str):
+def branch_passes_filters(branch: Branch.Branch, include: list[str], exclude: list[str]):
     '''Determines whether a branch name is filtered by include/exclude rules'''
-    include_passes = include == '' or include.lower() in branch.name.lower()
-    exclude_passes = exclude == '' or exclude.lower() not in branch.name.lower()
+    include_passes = False
+    exclude_passes = False
+
+    for inc in include:
+        if inc == '' or inc.lower() in branch.name.lower():
+            include_passes = True
+
+    for ex in exclude:
+        if ex == '' or ex.lower() not in branch.name.lower():
+            exclude_passes = True
 
     return include_passes and exclude_passes
 
-def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch: str = '', include: str = '', exclude: str = '') -> list[Branch.Branch]:
+def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch: str = '', include: list[str] = None, exclude: list[str] = None) -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     include = include.strip()
     exclude = exclude.strip()
