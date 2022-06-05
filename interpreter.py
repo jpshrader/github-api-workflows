@@ -5,25 +5,33 @@ from typing import Dict
 from github import Github
 from github_functions.branch_management import identify_empty_branches, merge_branch_and_pr
 
+def retrieve_argument(instruction, argument: str, is_required: bool = True):
+    '''Retrives an instruction argument - defaults to empty string if not required'''
+    if not is_required:
+        value = ''
+        if argument in instruction:
+            value = instruction[argument]
+        return value
+
+    return instruction[argument]
+
 def merge_branch(github: Github, instruction) -> None:
     '''Opens a PR to update a branch'''
-    repo_name = instruction['repo_name']
-    from_branch = instruction['from_branch']
-    to_branch = instruction['to_branch']
-    reviewers = instruction['reviewers']
-    labels = instruction['labels']
+    repo_name = retrieve_argument(instruction, 'repo_name')
+    from_branch = retrieve_argument(instruction, 'from_branch')
+    to_branch = retrieve_argument(instruction, 'to_branch')
+    reviewers = retrieve_argument(instruction, 'reviewers', is_required=False)
+    labels = retrieve_argument(instruction, 'labels', is_required=False)
 
     merge_branch_and_pr(github, repo_name, from_branch, to_branch, reviewers, labels)
 
 def list_empty_branches(github: Github, instruction) -> None:
     '''Lists all empty branches in a given repo'''
-    repo_name = instruction['repo_name']
-    filter_field_name = 'branch_filter'
-    branch_name_filter = ''
-    if filter_field_name in instruction:
-        branch_name_filter = instruction['branch_filter']
+    repo_name = retrieve_argument(instruction, 'repo_name')
+    include_filter = retrieve_argument(instruction, 'include_filter', is_required=False)
+    exclude_filter = retrieve_argument(instruction, 'exclude_filter', is_required=False)
 
-    empty_branches = identify_empty_branches(github, repo_name, branch_name_filter=branch_name_filter)
+    empty_branches = identify_empty_branches(github, repo_name, include_filter=include_filter, exclude_filter=exclude_filter)
     print('=' * 30)
     print(f'{len(empty_branches)} EMPTY BRANCHES FOUND IN {repo_name}')
     for empty_branch in empty_branches:

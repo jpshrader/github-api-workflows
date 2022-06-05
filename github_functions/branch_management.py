@@ -21,19 +21,20 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
     for label in labels:
         pull_request.add_to_labels(label)
 
-    reviewers_to_request = []
-    current_user = get_current_user(github)
-    for reviewer in reviewers:
-        if reviewer != current_user.login:
-            reviewers_to_request.append(reviewer)
-    pull_request.create_review_request(reviewers_to_request)
+    if len(reviewers) > 0:
+        reviewers_to_request = []
+        current_user = get_current_user(github)
+        for reviewer in reviewers:
+            if reviewer != current_user.login:
+                reviewers_to_request.append(reviewer)
+        pull_request.create_review_request(reviewers_to_request)
 
-def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str = '', branch_name_filter: str = '') -> list[Branch.Branch]:
+def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str = '', include_filter: str = '', exclude_filter: str = '') -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     repo = get_repo_by_full_name(github, repo_full_name)
-    return identify_empty_branches_with_repo(repo, target_branch, branch_name_filter=branch_name_filter)
+    return identify_empty_branches_with_repo(repo, target_branch, include_filter=include_filter, exclude_filter=exclude_filter)
 
-def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch: str = '', branch_name_filter: str = '') -> list[Branch.Branch]:
+def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch: str = '', include_filter: str = '', exclude_filter: str = '') -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     if target_branch == '':
         target_branch = repo.default_branch
@@ -44,7 +45,7 @@ def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch
 
     for branch in branches:
         if target.name != branch.name and not(branch.protected) and not is_branch_ahead(repo, target, branch):
-            if branch_name_filter == '' or branch_name_filter.lower() in branch.name.lower():
+            if include_filter == '' or include_filter.lower() in branch.name.lower() and exclude_filter == '' or exclude_filter.lower() not in branch.name.lower():
                 empty_branches.append(branch)
 
     return empty_branches
