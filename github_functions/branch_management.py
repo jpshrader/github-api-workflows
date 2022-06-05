@@ -1,6 +1,6 @@
 '''Branch Management Service'''
 from datetime import datetime
-from github import Github, Branch, Repository, Label
+from github import Github, Branch, Repository
 
 from github_services.comparison_service import is_branch_ahead
 from github_services.repo_service import get_repo_by_full_name
