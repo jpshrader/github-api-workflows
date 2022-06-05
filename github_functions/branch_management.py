@@ -1,6 +1,5 @@
 '''Branch Management Service'''
 from datetime import datetime
-from unicodedata import name
 from github import Github, Branch, Repository
 
 from github_services.user_service import get_current_user
@@ -29,12 +28,12 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
             reviewers_to_request.append(reviewer)
     pull_request.create_review_request(reviewers_to_request)
 
-def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str = '', filter: str = '') -> list[Branch.Branch]:
+def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str = '', branch_name_filter: str = '') -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     repo = get_repo_by_full_name(github, repo_full_name)
-    return identify_empty_branches_with_repo(repo, target_branch)
+    return identify_empty_branches_with_repo(repo, target_branch, branch_name_filter=branch_name_filter)
 
-def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch: str = '', filter: str = '') -> list[Branch.Branch]:
+def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch: str = '', branch_name_filter: str = '') -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     if target_branch == '':
         target_branch = repo.default_branch
@@ -45,7 +44,7 @@ def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch
 
     for branch in branches:
         if target.name != branch.name and not(branch.protected) and not is_branch_ahead(repo, target, branch):
-            if filter == '' or filter.lower() in branch.name.lower():
+            if branch_name_filter == '' or branch_name_filter.lower() in branch.name.lower():
                 empty_branches.append(branch)
 
     return empty_branches

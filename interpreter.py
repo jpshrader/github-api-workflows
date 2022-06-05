@@ -18,9 +18,9 @@ def merge_branch(github: Github, instruction) -> None:
 def list_empty_branches(github: Github, instruction) -> None:
     '''Lists all empty branches in a given repo'''
     repo_name = instruction['repo_name']
-    filter = instruction['filter']
+    branch_name_filter = instruction['filter']
 
-    empty_branches = identify_empty_branches(github, repo_name, filter=filter)
+    empty_branches = identify_empty_branches(github, repo_name, branch_name_filter=branch_name_filter)
     print('=' * 30)
     print(f'{len(empty_branches)} EMPTY BRANCHES FOUND IN {repo_name}')
     for empty_branch in empty_branches:
@@ -30,6 +30,9 @@ def interpret_instructions(github: Github, instructions: Dict[str, object]) -> N
     '''Interprets and executes a sequence of instructions'''
     instruction_list = instructions['instructions']
     print(instruction_list)
+    print(len(instruction_list))
+    print(instruction_list[0])
+    print(instruction_list[1])
 
     for instruction in instruction_list:
         match instruction['action']:
