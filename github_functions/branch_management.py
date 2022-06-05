@@ -2,6 +2,7 @@
 from datetime import datetime
 from github import Github, Branch, Repository
 
+from github_services.user_service import get_current_user
 from github_services.comparison_service import is_branch_ahead
 from github_services.repo_service import get_repo_by_full_name
 from github_services.pull_request_service import create_pull_request_by_repo
@@ -19,15 +20,24 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
 
     for label in labels:
         pull_request.add_to_labels(label)
-    pull_request.create_review_request(reviewers)
 
-def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str) -> list[Branch.Branch]:
+    reviewers_to_request = []
+    current_user = get_current_user(github)
+    for reviewer in reviewers:
+        if reviewer != current_user.login:
+            reviewers_to_request.append(reviewer)
+    pull_request.create_review_request(reviewers_to_request)
+
+def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str = '') -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     repo = get_repo_by_full_name(github, repo_full_name)
     return identify_empty_branches_with_repo(repo, target_branch)
 
-def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch: str) -> list[Branch.Branch]:
+def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch: str = '') -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
+    if target_branch == '':
+        target_branch = repo.default_branch
+
     empty_branches = []
     branches = repo.get_branches()
     target = get_branch_from_list(branches, target_branch)

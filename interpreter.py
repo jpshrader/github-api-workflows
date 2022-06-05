@@ -3,7 +3,7 @@ from argparse import ArgumentError
 from typing import Dict
 
 from github import Github
-from github_functions.branch_management import merge_branch_and_pr
+from github_functions.branch_management import identify_empty_branches, merge_branch_and_pr
 
 def merge_branch(github: Github, instruction) -> None:
     '''Opens a PR to update a branch'''
@@ -12,7 +12,14 @@ def merge_branch(github: Github, instruction) -> None:
     to_branch = instruction['to_branch']
     reviewers = instruction['reviewers']
     labels = instruction['labels']
+
     merge_branch_and_pr(github, repo_name, from_branch, to_branch, reviewers, labels)
+
+def list_empty_branches(github: Github, instruction) -> None:
+    '''Lists all empty branches in a given repo'''
+    repo_name = instruction['repo_name']
+
+    identify_empty_branches(github, repo_name)
 
 def interpret_instructions(github: Github, instructions: Dict[str, object]) -> None:
     '''Interprets and executes a sequence of instructions'''
@@ -20,6 +27,9 @@ def interpret_instructions(github: Github, instructions: Dict[str, object]) -> N
         match instruction['action']:
             case 'merge_branch':
                 merge_branch(github, instruction)
+                break
+            case 'list_empty_branches':
+                list_empty_branches(github, instruction)
                 break
 
             case _:
