@@ -4,10 +4,10 @@ from github import Github, Branch, Repository
 
 from github_services.comparison_service import is_branch_ahead
 from github_services.repo_service import get_repo_by_full_name
-from github_services.pull_request_service import create_pull_request_by_repo, update_pull_request
+from github_services.pull_request_service import create_pull_request_by_repo
 from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch_from_repo
 
-def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, to_branch: str, reviewers: list[str], labels: list[str]) -> bool:
+def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, to_branch: str, reviewers: list[str], labels: list[str]) -> None:
     '''Opens a Pr to update a given branch'''
     date_time = datetime.now().strftime("%d-%m-%YT%H-%M-%S")
     new_branch_name = f'merge-{from_branch}-to-{to_branch}-{date_time}'
@@ -19,8 +19,6 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
 
     pull_request.set_labels(labels)
     pull_request.create_review_request(reviewers)
-
-    return update_pull_request(pull_request)
 
 def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str) -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
