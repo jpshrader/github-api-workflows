@@ -17,7 +17,7 @@ References:
 - [Contributing Guide](CONTRIBUTING.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [License](LICENSE)
-- 
+- [Security Policy](SECURITY.md)
 
 ## Usage 
 
