@@ -6,7 +6,7 @@ from github_services.user_service import get_current_user
 from github_services.comparison_service import is_branch_ahead
 from github_services.repo_service import get_repo_by_full_name
 from github_services.pull_request_service import create_pull_request_by_repo
-from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch_from_repo
+from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch_from_repo, get_branches_by_repo
 
 def branch_passes_filters(branch: Branch.Branch, include: list[str], exclude: list[str]):
     '''Determines whether a branch name is filtered by include/exclude rules'''
@@ -55,7 +55,7 @@ def identify_unprotected_branches(github: Github, repo_full_name: str, include: 
 def identify_unprotected_branches_with_repo(repo: Repository.Repository, include: list[str] = None, exclude: list[str] = None) -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     unprotected_branches = []
-    branches = repo.get_branches()
+    branches = get_branches_by_repo(repo)
     for branch in branches:
         if not branch.protected and branch_passes_filters(branch, include, exclude):
             unprotected_branches.append(branch)
@@ -74,7 +74,7 @@ def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch
         target_branch = repo.default_branch
 
     empty_branches = []
-    branches = repo.get_branches()
+    branches = get_branches_by_repo(repo)
     target = get_branch_from_list(branches, target_branch)
 
     for branch in branches:
