@@ -4,7 +4,6 @@ from github import Github, Branch, Repository
 
 from github_services.comparison_service import is_branch_ahead
 from github_services.repo_service import get_repo_by_full_name
-from github_services.label_service import get_labels_from_repo
 from github_services.pull_request_service import create_pull_request_by_repo, update_pull_request
 from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch_from_repo
 
@@ -16,14 +15,9 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
     create_branch_from_repo(repo, from_branch, new_branch_name)
 
     pr_name = f'Merge {from_branch} to {to_branch}'
-    pull_request = create_pull_request_by_repo(repo, pr_name, '', to_branch, new_branch_name, is_draft=True)
+    pull_request = create_pull_request_by_repo(repo, pr_name, '', to_branch, new_branch_name, is_draft=False)
 
-    repo_labels = get_labels_from_repo(repo)
-    for label in labels:
-        for repo_label in repo_labels:
-            if label == repo_label.name:
-                pull_request.labels.append(repo_label)
-
+    pull_request.set_labels(labels)
     pull_request.create_review_request(reviewers)
 
     return update_pull_request(pull_request)
