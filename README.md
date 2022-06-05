@@ -1,6 +1,6 @@
 # GitHub Utilities
 
-### Setup
+## Setup
 
 This project utilises Visual Studio Dev Containers to manage dependencies. For more information on VS Code Development Containers, see the following:
 1. https://code.visualstudio.com/download
@@ -12,11 +12,18 @@ References:
 2. [PyGitHub API Object Reference](https://pygithub.readthedocs.io/en/latest/github_objects.html)
 3. [Python Requirements file](https://pip.pypa.io/en/stable/reference/requirements-file-format/)
 
-### Usage 
+## Community Resources
+
+- [Contributing Guide](CONTRIBUTING.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [License](LICENSE)
+- 
+
+## Usage 
 
 Working examples: https://github.com/jpshrader/github-utilities-examples
 
-#### Merge branches
+### Merge branches
 
 The `merge_branch` instruction creates a new branch (`merge-{from_branch}-to-{to_branch}-{timestamp}`) off of `from_branch`, and opens a pull request targeting `to_branch`. PR labels and reviewers can also be passed to this instruction
 
