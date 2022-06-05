@@ -19,7 +19,11 @@ def list_empty_branches(github: Github, instruction) -> None:
     '''Lists all empty branches in a given repo'''
     repo_name = instruction['repo_name']
 
-    identify_empty_branches(github, repo_name)
+    empty_branches = identify_empty_branches(github, repo_name)
+    print('=' * 30)
+    print(f'EMPTY BRANCHES FOUND IN {repo_name}')
+    for empty_branch in empty_branches:
+        print(f'  - {empty_branch}')
 
 def interpret_instructions(github: Github, instructions: Dict[str, object]) -> None:
     '''Interprets and executes a sequence of instructions'''
