@@ -1,5 +1,5 @@
 '''Branch Management Service'''
-from datetime import date
+from datetime import datetime
 from github import Github, Branch, Repository, PullRequest
 
 from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch
@@ -9,7 +9,8 @@ from github_services.pull_request_service import create_pull_request
 
 def update_branch(github: Github, repo_full_name: str, from_branch: str, to_branch: str) -> PullRequest.PullRequest:
     '''Opens a Pr to update a given branch'''
-    new_branch_name = f'merge-{from_branch}-to-{to_branch}-{date.today()}'
+    date_time = datetime.now().strftime("%d-%m-%YT%H-%M-%S")
+    new_branch_name = f'merge-{from_branch}-to-{to_branch}-{date_time}'
     create_branch(github, repo_full_name, from_branch, new_branch_name)
 
     pr_name = f'Merge {from_branch} to {to_branch}'
