@@ -29,12 +29,9 @@ def list_empty_branches(github: Github, instruction) -> None:
 def interpret_instructions(github: Github, instructions: Dict[str, object]) -> None:
     '''Interprets and executes a sequence of instructions'''
     instruction_list = instructions['instructions']
-    print(instruction_list)
-    print(len(instruction_list))
-    print(instruction_list[0])
-    print(instruction_list[1])
 
-    for instruction in instruction_list:
+    for i in range(len(instruction_list)): # pylint: disable=consider-using-enumerate
+        instruction = instruction_list[i]
         match instruction['action']:
             case 'merge_branch':
                 merge_branch(github, instruction)
