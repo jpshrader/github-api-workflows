@@ -8,6 +8,7 @@ from github_services.repo_service import get_repo_by_full_name
 from github_services.pull_request_service import create_pull_request_by_repo
 from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch_from_repo
 
+# MERGE AND PR BRANCH
 def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, to_branch: str, reviewers: list[str], labels: list[str]) -> None:
     '''Opens a Pr to update a given branch'''
     date_time = datetime.now().strftime("%d-%m-%YT%H-%M-%S")
@@ -29,6 +30,26 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
                 reviewers_to_request.append(reviewer)
         pull_request.create_review_request(reviewers_to_request)
 
+# IDENTIFY UNPROTECTED BRANCHES
+def identify_unprotected_branches(github: Github, repo_full_name: str, include_filter: str = '', exclude_filter: str = '') -> list[Branch.Branch]:
+    '''Returns a list of branches that are empty (not ahead of target branch)'''
+    repo = get_repo_by_full_name(github, repo_full_name)
+    return identify_unprotected_branches_with_repo(repo, include_filter=include_filter, exclude_filter=exclude_filter)
+
+def identify_unprotected_branches_with_repo(repo: Repository.Repository, include_filter: str = '', exclude_filter: str = '') -> list[Branch.Branch]:
+    '''Returns a list of branches that are empty (not ahead of target branch)'''
+    include_filter = include_filter.strip()
+    exclude_filter = exclude_filter.strip()
+
+    unprotected_branches = []
+    branches = repo.get_branches()
+    for branch in branches:
+        if not branch.protected:
+            unprotected_branches.append(branch)
+
+    return unprotected_branches
+
+# IDENTIFY EMPTY BRANCHES
 def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str = '', include_filter: str = '', exclude_filter: str = '') -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     repo = get_repo_by_full_name(github, repo_full_name)
