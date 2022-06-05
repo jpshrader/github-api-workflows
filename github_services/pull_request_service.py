@@ -34,20 +34,20 @@ def merge_pull_request(pull_request: PullRequest.PullRequest) -> PullRequestMerg
     return pull_request.merge()
 
 # CLOSE PR
-def close_pull_request(pull_request: PullRequest.PullRequest) -> None:
+def close_pull_request(pull_request: PullRequest.PullRequest) -> bool:
     '''Closes a given pull request'''
     pull_request.state = "closed"
-    pull_request.edit()
+    return pull_request.update()
 
-def close_pull_request_by_repo(repo: Repository.Repository, pr_id: int) -> None:
+def close_pull_request_by_repo(repo: Repository.Repository, pr_id: int) -> bool:
     '''Closes a given pull request'''
     pull_request = get_pull_request_from_repo(repo, pr_id)
-    close_pull_request(pull_request)
+    return close_pull_request(pull_request)
 
-def close_pull_request_by_name(github: Github, repo_full_name: str, pr_id: int) -> None:
+def close_pull_request_by_name(github: Github, repo_full_name: str, pr_id: int) -> bool:
     '''Closes a given pull request'''
     pull_request = get_pull_request(github, repo_full_name, pr_id)
-    close_pull_request(pull_request)
+    return close_pull_request(pull_request)
 
 # CREATE PR
 def create_pull_request(github: Github, repo_full_name: str, title: str, body: str, to_branch: str, from_branch: str, is_draft: bool) -> PullRequest.PullRequest:
@@ -58,3 +58,8 @@ def create_pull_request(github: Github, repo_full_name: str, title: str, body: s
 def create_pull_request_by_repo(repo: Repository.Repository, title: str, body: str, to_branch: str, from_branch: str, is_draft: bool) -> PullRequest.PullRequest:
     '''Creates a Pull Request between two branch names (ex. 'main')'''
     return repo.create_pull(title, body, base=to_branch, head=from_branch, draft=is_draft)
+
+# UPDATE PR
+def update_pull_request(pull_request: PullRequest.PullRequest) -> bool:
+    '''Updates a given pull request'''
+    return pull_request.update()

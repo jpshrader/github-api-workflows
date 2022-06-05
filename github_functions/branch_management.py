@@ -1,20 +1,32 @@
 '''Branch Management Service'''
 from datetime import datetime
-from github import Github, Branch, Repository, PullRequest
+from github import Github, Branch, Repository
 
-from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch
+from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch_from_repo
 from github_services.comparison_service import is_branch_ahead
 from github_services.repo_service import get_repo_by_full_name
-from github_services.pull_request_service import create_pull_request
+from github_services.pull_request_service import create_pull_request_by_repo, update_pull_request
+from github_services.label_service import get_labels_from_repo
 
-def update_branch(github: Github, repo_full_name: str, from_branch: str, to_branch: str) -> PullRequest.PullRequest:
+def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, to_branch: str, reviewers: list[str], labels: list[str]) -> bool:
     '''Opens a Pr to update a given branch'''
     date_time = datetime.now().strftime("%d-%m-%YT%H-%M-%S")
     new_branch_name = f'merge-{from_branch}-to-{to_branch}-{date_time}'
-    create_branch(github, repo_full_name, from_branch, new_branch_name)
+    repo = get_repo_by_full_name(github, repo_full_name)
+    create_branch_from_repo(repo, from_branch, new_branch_name)
 
     pr_name = f'Merge {from_branch} to {to_branch}'
-    return create_pull_request(github, repo_full_name, pr_name, '', to_branch, new_branch_name, is_draft=True)
+    pull_request = create_pull_request_by_repo(repo, pr_name, '', to_branch, new_branch_name, is_draft=True)
+
+    repo_labels = get_labels_from_repo(repo)
+    for l in labels:
+        for lab in repo_labels:
+            if l == lab.name:
+                pull_request.labels.append(lab)
+
+    pull_request.create_review_request(reviewers)
+
+    return update_pull_request(pull_request)
 
 def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str) -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
