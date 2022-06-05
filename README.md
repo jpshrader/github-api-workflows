@@ -3,8 +3,9 @@
 ### Setup
 
 This project utilises Visual Studio Dev Containers to manage dependencies. For more information on VS Code Development Containers, see the following:
-1. https://code.visualstudio.com/docs/remote/containers
-2. https://code.visualstudio.com/learn/develop-cloud/containers
+1. https://code.visualstudio.com/download
+2. https://code.visualstudio.com/docs/remote/containers
+3. https://code.visualstudio.com/learn/develop-cloud/containers
 
 References:
 1. [PyGitHub API Reference](https://pygithub.readthedocs.io/en/latest/apis.html)
