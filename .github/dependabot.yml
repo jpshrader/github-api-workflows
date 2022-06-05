@@ -5,18 +5,8 @@ updates:
     schedule:
       interval: "weekly"
 
-  - package-ecosystem: "pip"
-    directory: "/.devcontainer"
-    schedule:
-      interval: "weekly"
-  
-  - package-ecosystem: "pip"
-    directory: "/.github/workflows"
-    schedule:
-      interval: "weekly"
-
   - package-ecosystem: "docker"
-    directory: "/.devcontainer"
+    directory: ".devcontainer"
     schedule:
       interval: "weekly"
 
@@ -26,6 +16,6 @@ updates:
       interval: "weekly"
 
   - package-ecosystem: "github-actions"
-    directory: "/.github/workflows"
+    directory: ".github/workflows"
     schedule:
       interval: "weekly"
