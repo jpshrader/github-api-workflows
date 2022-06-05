@@ -8,6 +8,23 @@ from github_services.repo_service import get_repo_by_full_name
 from github_services.pull_request_service import create_pull_request_by_repo
 from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch_from_repo
 
+def branch_passes_filters(branch: Branch.Branch, include: list[str], exclude: list[str]):
+    '''Determines whether a branch name is filtered by include/exclude rules'''
+    include_passes = False
+    exclude_passes = False
+
+    for inc in include:
+        inc = inc.strip()
+        if inc == '' or inc.lower() in branch.name.lower():
+            include_passes = True
+
+    for ex in exclude:
+        ex = ex.strip()
+        if ex == '' or ex.lower() not in branch.name.lower():
+            exclude_passes = True
+
+    return include_passes and exclude_passes
+
 # MERGE AND PR BRANCH
 def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, to_branch: str, reviewers: list[str], labels: list[str]) -> None:
     '''Opens a Pr to update a given branch'''
@@ -38,9 +55,6 @@ def identify_unprotected_branches(github: Github, repo_full_name: str, include: 
 
 def identify_unprotected_branches_with_repo(repo: Repository.Repository, include: list[str] = None, exclude: list[str] = None) -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
-    include = include.strip()
-    exclude = exclude.strip()
-
     unprotected_branches = []
     branches = repo.get_branches()
     for branch in branches:
@@ -55,25 +69,8 @@ def identify_empty_branches(github: Github, repo_full_name: str, target_branch: 
     repo = get_repo_by_full_name(github, repo_full_name)
     return identify_empty_branches_with_repo(repo, target_branch, include=include, exclude=exclude)
 
-def branch_passes_filters(branch: Branch.Branch, include: list[str], exclude: list[str]):
-    '''Determines whether a branch name is filtered by include/exclude rules'''
-    include_passes = False
-    exclude_passes = False
-
-    for inc in include:
-        if inc == '' or inc.lower() in branch.name.lower():
-            include_passes = True
-
-    for ex in exclude:
-        if ex == '' or ex.lower() not in branch.name.lower():
-            exclude_passes = True
-
-    return include_passes and exclude_passes
-
 def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch: str = '', include: list[str] = None, exclude: list[str] = None) -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
-    include = include.strip()
-    exclude = exclude.strip()
     if target_branch == '':
         target_branch = repo.default_branch
 
