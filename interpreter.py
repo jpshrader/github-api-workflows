@@ -18,8 +18,9 @@ def merge_branch(github: Github, instruction) -> None:
 def list_empty_branches(github: Github, instruction) -> None:
     '''Lists all empty branches in a given repo'''
     repo_name = instruction['repo_name']
+    filter = instruction['filter']
 
-    empty_branches = identify_empty_branches(github, repo_name)
+    empty_branches = identify_empty_branches(github, repo_name, filter=filter)
     print('=' * 30)
     print(f'{len(empty_branches)} EMPTY BRANCHES FOUND IN {repo_name}')
     for empty_branch in empty_branches:
