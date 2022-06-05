@@ -44,7 +44,7 @@ def identify_unprotected_branches_with_repo(repo: Repository.Repository, include
     unprotected_branches = []
     branches = repo.get_branches()
     for branch in branches:
-        if not branch.protected:
+        if not branch.protected and branch_passes_filters(branch, include, exclude):
             unprotected_branches.append(branch)
 
     return unprotected_branches
