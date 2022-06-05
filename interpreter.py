@@ -34,6 +34,10 @@ def list_empty_branches(github: Github, instruction) -> None:
     empty_branches = identify_empty_branches(github, repo_name, include_filter=include_filter, exclude_filter=exclude_filter)
     print('=' * 30)
     print(f'{len(empty_branches)} EMPTY BRANCHES FOUND IN {repo_name}')
+    if include_filter != '':
+        print(f'Include branches containing: {include_filter.lower()}')
+    if exclude_filter != '':
+        print(f'Exclude branches containing: {exclude_filter.lower()}')
     for empty_branch in empty_branches:
         print(f'  - {empty_branch.name}')
 
