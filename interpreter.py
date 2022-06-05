@@ -19,10 +19,10 @@ def print_branch_list(branch_list: list[Branch.Branch], action: str, repo_name: 
     '''Prints a list of branches associated with a particular action'''
     print('=' * 30)
     print(f'{len(branch_list)} {action} BRANCHES FOUND IN {repo_name}')
-    if include != '':
+    if len(include) > 0:
         include_list = ', '.join(include)
         print(f'Include branches containing: {include_list}')
-    if exclude != '':
+    if len(exclude) > 0:
         exclude_list = ', '.join(exclude)
         print(f'Exclude branches containing: {exclude_list}')
     for empty_branch in branch_list:

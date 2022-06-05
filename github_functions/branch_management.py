@@ -10,8 +10,8 @@ from github_services.branch_service import delete_branch_from_repo_by_branch, ge
 
 def branch_passes_filters(branch: Branch.Branch, include: list[str], exclude: list[str]):
     '''Determines whether a branch name is filtered by include/exclude rules'''
-    include_passes = False
-    exclude_passes = False
+    include_passes = len(include) == 0
+    exclude_passes = len(exclude) == 0
 
     for inc in include:
         inc = inc.strip()
@@ -79,9 +79,8 @@ def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch
     target = get_branch_from_list(branches, target_branch)
 
     for branch in branches:
-        if target.name != branch.name and not(branch.protected) and not is_branch_ahead(repo, target, branch):
-            if branch_passes_filters(branch, include, exclude):
-                empty_branches.append(branch)
+        if target.name != branch.name and not(branch.protected) and not is_branch_ahead(repo, target, branch) and branch_passes_filters(branch, include, exclude):
+            empty_branches.append(branch)
 
     return empty_branches
 
