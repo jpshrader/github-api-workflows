@@ -1,7 +1,7 @@
 '''Interpreter Tests'''
 from unittest import TestCase
 
-from interpreter import retrieve_argument
+from common.interpreter import retrieve_argument
 
 class InterpretorTests(TestCase):
     '''Placeholder Test Fixture'''
