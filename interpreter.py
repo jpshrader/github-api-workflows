@@ -27,6 +27,7 @@ def list_empty_branches(github: Github, instruction) -> None:
 
 def interpret_instructions(github: Github, instructions: Dict[str, object]) -> None:
     '''Interprets and executes a sequence of instructions'''
+    print(instructions)
     for instruction in instructions['instructions']:
         match instruction['action']:
             case 'merge_branch':
