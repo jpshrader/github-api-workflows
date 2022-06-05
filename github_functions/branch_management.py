@@ -31,15 +31,15 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
         pull_request.create_review_request(reviewers_to_request)
 
 # IDENTIFY UNPROTECTED BRANCHES
-def identify_unprotected_branches(github: Github, repo_full_name: str, include_filter: str = '', exclude_filter: str = '') -> list[Branch.Branch]:
+def identify_unprotected_branches(github: Github, repo_full_name: str, include: str = '', exclude: str = '') -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     repo = get_repo_by_full_name(github, repo_full_name)
-    return identify_unprotected_branches_with_repo(repo, include_filter=include_filter, exclude_filter=exclude_filter)
+    return identify_unprotected_branches_with_repo(repo, include=include, exclude=exclude)
 
-def identify_unprotected_branches_with_repo(repo: Repository.Repository, include_filter: str = '', exclude_filter: str = '') -> list[Branch.Branch]:
+def identify_unprotected_branches_with_repo(repo: Repository.Repository, include: str = '', exclude: str = '') -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
-    include_filter = include_filter.strip()
-    exclude_filter = exclude_filter.strip()
+    include = include.strip()
+    exclude = exclude.strip()
 
     unprotected_branches = []
     branches = repo.get_branches()
@@ -50,22 +50,22 @@ def identify_unprotected_branches_with_repo(repo: Repository.Repository, include
     return unprotected_branches
 
 # IDENTIFY EMPTY BRANCHES
-def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str = '', include_filter: str = '', exclude_filter: str = '') -> list[Branch.Branch]:
+def identify_empty_branches(github: Github, repo_full_name: str, target_branch: str = '', include: str = '', exclude: str = '') -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
     repo = get_repo_by_full_name(github, repo_full_name)
-    return identify_empty_branches_with_repo(repo, target_branch, include_filter=include_filter, exclude_filter=exclude_filter)
+    return identify_empty_branches_with_repo(repo, target_branch, include=include, exclude=exclude)
 
-def branch_passes_filters(branch: Branch.Branch, include_filter: str, exclude_filter: str):
+def branch_passes_filters(branch: Branch.Branch, include: str, exclude: str):
     '''Determines whether a branch name is filtered by include/exclude rules'''
-    include_filter_passes = include_filter == '' or include_filter.lower() in branch.name.lower()
-    exclude_filter_passes = exclude_filter == '' or exclude_filter.lower() not in branch.name.lower()
+    include_passes = include == '' or include.lower() in branch.name.lower()
+    exclude_passes = exclude == '' or exclude.lower() not in branch.name.lower()
 
-    return include_filter_passes and exclude_filter_passes
+    return include_passes and exclude_passes
 
-def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch: str = '', include_filter: str = '', exclude_filter: str = '') -> list[Branch.Branch]:
+def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch: str = '', include: str = '', exclude: str = '') -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
-    include_filter = include_filter.strip()
-    exclude_filter = exclude_filter.strip()
+    include = include.strip()
+    exclude = exclude.strip()
     if target_branch == '':
         target_branch = repo.default_branch
 
@@ -75,7 +75,7 @@ def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch
 
     for branch in branches:
         if target.name != branch.name and not(branch.protected) and not is_branch_ahead(repo, target, branch):
-            if branch_passes_filters(branch, include_filter, exclude_filter):
+            if branch_passes_filters(branch, include, exclude):
                 empty_branches.append(branch)
 
     return empty_branches

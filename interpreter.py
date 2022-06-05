@@ -15,14 +15,14 @@ def retrieve_argument(instruction, argument: str, is_required: bool = True):
 
     return instruction[argument]
 
-def print_branch_list(branch_list: list[Branch.Branch], action: str, repo_name: str, include_filter: str, exclude_filter: str):
+def print_branch_list(branch_list: list[Branch.Branch], action: str, repo_name: str, include: str, exclude: str):
     '''Prints a list of branches associated with a particular action'''
     print('=' * 30)
     print(f'{len(branch_list)} {action} BRANCHES FOUND IN {repo_name}')
-    if include_filter != '':
-        print(f'Include branches containing: {include_filter.lower()}')
-    if exclude_filter != '':
-        print(f'Exclude branches containing: {exclude_filter.lower()}')
+    if include != '':
+        print(f'Include branches containing: {include.lower()}')
+    if exclude != '':
+        print(f'Exclude branches containing: {exclude.lower()}')
     for empty_branch in branch_list:
         print(f'  - {empty_branch.name}')
 
@@ -39,25 +39,25 @@ def merge_branch(github: Github, instruction) -> None:
 def list_empty_branches(github: Github, instruction) -> None:
     '''Lists all empty branches in a given repo'''
     repo_name = retrieve_argument(instruction, 'repo_name')
-    include_filter = retrieve_argument(instruction, 'include_filter', is_required=False)
-    exclude_filter = retrieve_argument(instruction, 'exclude_filter', is_required=False)
+    include = retrieve_argument(instruction, 'include', is_required=False)
+    exclude = retrieve_argument(instruction, 'exclude', is_required=False)
 
-    empty_branches = identify_empty_branches(github, repo_name, include_filter=include_filter, exclude_filter=exclude_filter)
-    print_branch_list(empty_branches, 'EMPTY', repo_name, include_filter, exclude_filter)
+    empty_branches = identify_empty_branches(github, repo_name, include=include, exclude=exclude)
+    print_branch_list(empty_branches, 'EMPTY', repo_name, include, exclude)
 
 def list_unprotected_branches(github: Github, instruction) -> None:
     '''Lists all branches that are not protected'''
     repo_name = retrieve_argument(instruction, 'repo_name')
-    include_filter = retrieve_argument(instruction, 'include_filter', is_required=False)
-    exclude_filter = retrieve_argument(instruction, 'exclude_filter', is_required=False)
+    include = retrieve_argument(instruction, 'include', is_required=False)
+    exclude = retrieve_argument(instruction, 'exclude', is_required=False)
 
-    empty_branches = identify_unprotected_branches(github, repo_name, include_filter=include_filter, exclude_filter=exclude_filter)
-    print_branch_list(empty_branches, 'UNPROTECTED', repo_name, include_filter, exclude_filter)
+    empty_branches = identify_unprotected_branches(github, repo_name, include=include, exclude=exclude)
+    print_branch_list(empty_branches, 'UNPROTECTED', repo_name, include, exclude)
 
 def interpret_instructions(github: Github, instructions: Dict[str, object]) -> None:
     '''Interprets and executes a sequence of instructions'''
     for instruction in instructions['instructions']:
-        match instruction['action']:
+        match str(instruction['action']).lower():
             case 'merge_branch':
                 merge_branch(github, instruction)
             case 'list_empty_branches':
