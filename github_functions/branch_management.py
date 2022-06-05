@@ -34,8 +34,17 @@ def identify_empty_branches(github: Github, repo_full_name: str, target_branch: 
     repo = get_repo_by_full_name(github, repo_full_name)
     return identify_empty_branches_with_repo(repo, target_branch, include_filter=include_filter, exclude_filter=exclude_filter)
 
+def branch_passes_filters(branch: Branch.Branch, include_filter: str, exclude_filter: str):
+    '''Determines whether a branch name is filtered by include/exclude rules'''
+    include_filter_passes = include_filter == '' or include_filter.lower() in branch.name.lower() or include_filter.lower() == branch.name.lower()
+    exclude_filter_passes = exclude_filter == '' or exclude_filter.lower() not in branch.name.lower() or exclude_filter.lower() == branch.name.lower()
+
+    return include_filter_passes and exclude_filter_passes
+
 def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch: str = '', include_filter: str = '', exclude_filter: str = '') -> list[Branch.Branch]:
     '''Returns a list of branches that are empty (not ahead of target branch)'''
+    include_filter = include_filter.strip()
+    exclude_filter = exclude_filter.strip()
     if target_branch == '':
         target_branch = repo.default_branch
 
@@ -45,7 +54,7 @@ def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch
 
     for branch in branches:
         if target.name != branch.name and not(branch.protected) and not is_branch_ahead(repo, target, branch):
-            if include_filter == '' or include_filter.lower() in branch.name.lower() and exclude_filter == '' or exclude_filter.lower() not in branch.name.lower():
+            if branch_passes_filters(branch, include_filter, exclude_filter):
                 empty_branches.append(branch)
 
     return empty_branches
