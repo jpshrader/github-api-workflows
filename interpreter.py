@@ -5,10 +5,10 @@ from typing import Dict
 from github import Github, Branch
 from github_functions.branch_management import identify_empty_branches, merge_branch_and_pr, identify_unprotected_branches
 
-def retrieve_argument(instruction, argument: str, is_required: bool = True):
+def retrieve_argument(instruction, argument: str, is_required: bool = True, default = None):
     '''Retrives an instruction argument - defaults to None if not required'''
     if not is_required:
-        value = None
+        value = default
         if argument in instruction:
             value = instruction[argument]
         return value
@@ -31,16 +31,16 @@ def merge_branch(github: Github, instruction) -> None:
     repo_name = retrieve_argument(instruction, 'repo_name')
     from_branch = retrieve_argument(instruction, 'from_branch')
     to_branch = retrieve_argument(instruction, 'to_branch')
-    reviewers = retrieve_argument(instruction, 'reviewers', is_required=False)
-    labels = retrieve_argument(instruction, 'labels', is_required=False)
+    reviewers = retrieve_argument(instruction, 'reviewers', is_required=False, default='')
+    labels = retrieve_argument(instruction, 'labels', is_required=False, default='')
 
     merge_branch_and_pr(github, repo_name, from_branch, to_branch, reviewers, labels)
 
 def list_empty_branches(github: Github, instruction) -> None:
     '''Lists all empty branches in a given repo'''
     repo_name = retrieve_argument(instruction, 'repo_name')
-    include = retrieve_argument(instruction, 'include', is_required=False)
-    exclude = retrieve_argument(instruction, 'exclude', is_required=False)
+    include = retrieve_argument(instruction, 'include', is_required=False, default=[])
+    exclude = retrieve_argument(instruction, 'exclude', is_required=False, default=[])
 
     empty_branches = identify_empty_branches(github, repo_name, include=include, exclude=exclude)
     print_branch_list(empty_branches, 'EMPTY', repo_name, include, exclude)
@@ -48,8 +48,8 @@ def list_empty_branches(github: Github, instruction) -> None:
 def list_unprotected_branches(github: Github, instruction) -> None:
     '''Lists all branches that are not protected'''
     repo_name = retrieve_argument(instruction, 'repo_name')
-    include = retrieve_argument(instruction, 'include', is_required=False)
-    exclude = retrieve_argument(instruction, 'exclude', is_required=False)
+    include = retrieve_argument(instruction, 'include', is_required=False, default=[])
+    exclude = retrieve_argument(instruction, 'exclude', is_required=False, default=[])
 
     empty_branches = identify_unprotected_branches(github, repo_name, include=include, exclude=exclude)
     print_branch_list(empty_branches, 'UNPROTECTED', repo_name, include, exclude)
