@@ -21,7 +21,7 @@ References:
 
 ## Usage 
 
-Working examples: https://github.com/jpshrader/github-utilities-examples
+Working examples: https://github.com/jpshrader/github-api-workflows-examples
 
 ### Merge branches
 
@@ -30,7 +30,7 @@ The `merge_branch` instruction creates a new branch (`merge-{from_branch}-to-{to
 Examples:
 ```
 - action: merge_branch
-  repo_name: jpshrader/github-utilities
+  repo_name: jpshrader/github-api-workflows
   from_branch: main
   to_branch: test
   labels:
@@ -42,7 +42,7 @@ Examples:
 
 | Argument      | Description                                    | Example Value                | Required | Default Value |
 |---------------|------------------------------------------------|------------------------------|----------|---------------|
-| `repo_name`   | the full name of a repo (ex. `{owner}/{slug}`) | `jpshrader/github-utilities` | `true`   | `N/A`         |
+| `repo_name`   | the full name of a repo (ex. `{owner}/{slug}`) | `jpshrader/github-api-workflows` | `true`   | `N/A`         |
 | `from_branch` | name of the origin branch                      | `main`                       | `true`   | `N/A`         |
 | `to_branch`   | name of the destination branch                 | `main`                       | `true`   | `N/A`         |
 | `labels`      | a list of label names to add to the PR         | `bug`                        | `false`  | `[]`          |
@@ -58,7 +58,7 @@ The `list_empty_branches` instruction iterates over every branch in a given repo
 Examples:
 ```
 - action: list_empty_branches
-  repo_name: jpshrader/github-utilities
+  repo_name: jpshrader/github-api-workflows
   target_branch: main
   include:
     - test
@@ -68,7 +68,7 @@ Examples:
 
 | Argument        | Description                                                       | Example Value                | Required | Default Value          |
 |-----------------|-------------------------------------------------------------------|------------------------------|----------|------------------------|
-| `repo_name`     | the full name of a repo (ex. `{owner}/{slug}`)                    | `jpshrader/github-utilities` | `true`   | `N/A`                  |
+| `repo_name`     | the full name of a repo (ex. `{owner}/{slug}`)                    | `jpshrader/github-api-workflows` | `true`   | `N/A`                  |
 | `target_branch` | name of the branch to diff against                                | `main`                       | `true`   | Default branch of repo |
 | `include`       | a list of branch names to include (uses string contains to match) | `feature/`                   | `false`  | `[]`                   |
 | `exclude`       | a list of branch names to ignore (uses string contains to match)  | `releases/`                  | `false`  | `[]`                   |
@@ -80,7 +80,7 @@ The `list_unprotected_branches` instruction iterates over every branch in a give
 Examples:
 ```
 - action: list_unprotected_branches
-  repo_name: jpshrader/github-utilities
+  repo_name: jpshrader/github-api-workflows
   include:
     -test
   exclude: 
@@ -89,6 +89,6 @@ Examples:
 
 | Argument        | Description                                                       | Example Value                | Required | Default Value          |
 |-----------------|-------------------------------------------------------------------|------------------------------|----------|------------------------|
-| `repo_name`     | the full name of a repo (ex. `{owner}/{slug}`)                    | `jpshrader/github-utilities` | `true`   | `N/A`                  |
+| `repo_name`     | the full name of a repo (ex. `{owner}/{slug}`)                    | `jpshrader/github-api-workflows` | `true`   | `N/A`                  |
 | `include`       | a list of branch names to include (uses string contains to match) | `feature/`                   | `false`  | `[]`                   |
 | `exclude`       | a list of branch names to ignore (uses string contains to match)  | `releases/`                  | `false`  | `[]`                   |

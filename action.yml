@@ -20,7 +20,7 @@ runs:
   steps:
     - uses: actions/checkout@v3
       with:
-        repository: jpshrader/github-utilities
+        repository: jpshrader/github-api-workflows
         path: utilities
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
@@ -30,8 +30,8 @@ runs:
       shell: bash
       run: |
         python -m pip install --upgrade pip
-        pip install -r ./utilities/requirements.txt
+        pip install -r ./github-api-workflows/requirements.txt
     - name: Run application
       shell: bash
       run: |
-        python ./utilities/main.py --instructions ${{ inputs.instructions }} --file_type ${{ inputs.file_type }} --access_token ${{ inputs.access_token }} --base_path ./utilities/
+        python ./github-api-workflows/main.py --instructions ${{ inputs.instructions }} --file_type ${{ inputs.file_type }} --access_token ${{ inputs.access_token }} --base_path ./github-api-workflows/
