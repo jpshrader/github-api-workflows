@@ -21,7 +21,7 @@ runs:
     - uses: actions/checkout@v3
       with:
         repository: jpshrader/github-api-workflows
-        path: utilities
+        path: github-api-workflows
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
