@@ -21,7 +21,44 @@ References:
 
 ## Usage 
 
-Working examples: https://github.com/jpshrader/github-api-workflows-examples
+Working examples: https://github.com/jpshrader/github-api-workflow-examples
+
+```
+name: 'Run GitHub Utility'
+
+on:
+  workflow_dispatch:
+    inputs:
+      instructions:
+        description: 'GitHub Utility instruction set to use'
+        type: choice
+        options:
+          - './list-empty-branches.yml'
+          - './list-unprotected-branches.yml'
+          - './merge-branch.yml'
+        required: true
+      access_token:
+        description: 'GitHub Api Access Token'
+        type: string
+        required: true
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: jpshrader/github-api-workflows@main
+        with:
+          file_type: yaml
+          access_token: ${{ github.event.inputs.access_token }}
+          instructions: ${{ github.event.inputs.instructions }}
+```
+
+### Authentication
+
+This utility uses [GitHub Personal Access Tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to authenticate with the api. As a consequence, all actions performed through this utility will be 'done by' the owner of the token.
+
+In your consuming consuming workflow, you may accept the [access token as a parameter](https://github.com/jpshrader/github-api-workflow-examples/blob/main/.github/workflows/github-utility.yml#L14-L17) or store it as a [secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets#about-encrypted-secrets).
 
 ### Merge branches
 
