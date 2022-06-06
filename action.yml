@@ -1,9 +1,9 @@
-name: 'GitHub Utility'
-description: 'Run a set of  GitHub Utility instructions'
+name: 'GitHub Api Workflows'
+description: 'Run a set of GitHub api workflow instructions'
 author: jpshrader
 inputs:
   instructions:
-    description: 'List of instructions for Github Utility to complete'
+    description: 'List of instructions for Github api workflows to run'
     type: string
     required: true
   file_type:

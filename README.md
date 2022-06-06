@@ -54,6 +54,12 @@ jobs:
           instructions: ${{ github.event.inputs.instructions }}
 ```
 
+| Argument       | Description                                    | Example Value                    | Required | Supported Value(s) |
+|----------------|------------------------------------------------|----------------------------------|----------|--------------------|
+| `access_token` | GitHub personal access token for user          | `N/A`                            | `true`   | `N/A`              |
+| `instructions` | path to instructions file                      | `./list-empty-branches.yml`      | `true`   | `N/A`              |
+| `file_type`    | file format for instructions                   | `yaml`                           | `true`   | `yaml`             |
+
 ### Authentication
 
 This utility uses [GitHub Personal Access Tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to authenticate with the api. As a consequence, all actions performed through this utility will be 'done by' the owner of the token.
