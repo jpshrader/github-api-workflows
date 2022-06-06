@@ -60,6 +60,12 @@ This utility uses [GitHub Personal Access Tokens](https://docs.github.com/en/aut
 
 In your consuming consuming workflow, you may accept the [access token as a parameter](https://github.com/jpshrader/github-api-workflow-examples/blob/main/.github/workflows/github-utility.yml#L14-L17) or store it as a [secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets#about-encrypted-secrets).
 
+#### Token permissions
+
+This will of course vary on the types of operations you're performing, but at the least your token will probably need these permissions:
+- repo
+- user
+
 ### Merge branches
 
 The `merge_branch` instruction creates a new branch (`merge-{from_branch}-to-{to_branch}-{timestamp}`) off of `from_branch`, and opens a pull request targeting `to_branch`. PR labels and reviewers can also be passed to this instruction
@@ -77,15 +83,15 @@ Examples:
     - jpshrader
 ```
 
-| Argument      | Description                                    | Example Value                | Required | Default Value |
-|---------------|------------------------------------------------|------------------------------|----------|---------------|
+| Argument      | Description                                    | Example Value                    | Required | Default Value |
+|---------------|------------------------------------------------|----------------------------------|----------|---------------|
 | `repo_name`   | the full name of a repo (ex. `{owner}/{slug}`) | `jpshrader/github-api-workflows` | `true`   | `N/A`         |
-| `from_branch` | name of the origin branch                      | `main`                       | `true`   | `N/A`         |
-| `to_branch`   | name of the destination branch                 | `main`                       | `true`   | `N/A`         |
-| `labels`      | a list of label names to add to the PR         | `bug`                        | `false`  | `[]`          |
-| `reviewers`   | a list of user logins to request reviews from  | `jpshrader`                  | `false`  | `[]`          |
+| `from_branch` | name of the origin branch                      | `main`                           | `true`   | `N/A`         |
+| `to_branch`   | name of the destination branch                 | `main`                           | `true`   | `N/A`         |
+| `labels`      | a list of label names to add to the PR         | `bug`                            | `false`  | `[]`          |
+| `reviewers`   | a list of user logins to request reviews from  | `jpshrader`                      | `false`  | `[]`          |
 
-#### List Empty Branches
+### List Empty Branches
 
 The `list_empty_branches` instruction iterates over every branch in a given repo and prints a list of branches that are:
  - Not protected
@@ -103,14 +109,14 @@ Examples:
     - jawn
 ```
 
-| Argument        | Description                                                       | Example Value                | Required | Default Value          |
-|-----------------|-------------------------------------------------------------------|------------------------------|----------|------------------------|
-| `repo_name`     | the full name of a repo (ex. `{owner}/{slug}`)                    | `jpshrader/github-api-workflows` | `true`   | `N/A`                  |
-| `target_branch` | name of the branch to diff against                                | `main`                       | `true`   | Default branch of repo |
-| `include`       | a list of branch names to include (uses string contains to match) | `feature/`                   | `false`  | `[]`                   |
-| `exclude`       | a list of branch names to ignore (uses string contains to match)  | `releases/`                  | `false`  | `[]`                   |
+| Argument       | Description                                                      | Example Value                   | Required | Default Value          |
+|----------------|------------------------------------------------------------------|---------------------------------|----------|------------------------|
+| `repo_name`    | the full name of a repo (ex. `{owner}/{slug}`)                   | `jpshrader/github-api-workflows`| `true`   | `N/A`                  |
+| `target_branch`| name of the branch to diff against                               | `main`                          | `true`   | Default branch of repo |
+| `include`      | a list of branch names to include (uses string contains to match)| `feature/`                      | `false`  | `[]`                   |
+| `exclude`      | a list of branch names to ignore (uses string contains to match) | `releases/`                     | `false`  | `[]`                   |
 
-#### List Unprotected Branches
+### List Unprotected Branches
 
 The `list_unprotected_branches` instruction iterates over every branch in a given repo and prints a list of branches that do not have [protection rules](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)
 
@@ -124,8 +130,8 @@ Examples:
     - jawn
 ```
 
-| Argument        | Description                                                       | Example Value                | Required | Default Value          |
-|-----------------|-------------------------------------------------------------------|------------------------------|----------|------------------------|
-| `repo_name`     | the full name of a repo (ex. `{owner}/{slug}`)                    | `jpshrader/github-api-workflows` | `true`   | `N/A`                  |
-| `include`       | a list of branch names to include (uses string contains to match) | `feature/`                   | `false`  | `[]`                   |
-| `exclude`       | a list of branch names to ignore (uses string contains to match)  | `releases/`                  | `false`  | `[]`                   |
+| Argument    | Description                                                       | Example Value                    | Required | Default Value          |
+|-------------|-------------------------------------------------------------------|----------------------------------|----------|------------------------|
+| `repo_name` | the full name of a repo (ex. `{owner}/{slug}`)                    | `jpshrader/github-api-workflows` | `true`   | `N/A`                  |
+| `include`   | a list of branch names to include (uses string contains to match) | `feature/`                       | `false`  | `[]`                   |
+| `exclude`   | a list of branch names to ignore (uses string contains to match)  | `releases/`                      | `false`  | `[]`                   |
