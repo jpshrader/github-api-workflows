@@ -1,4 +1,4 @@
-# GitHub Utilities
+# GitHub Api Workflows
 
 ## Setup
 
