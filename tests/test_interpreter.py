@@ -3,8 +3,8 @@ from unittest import TestCase
 
 from common.interpreter import retrieve_argument
 
-class InterpretorTests(TestCase):
-    '''Placeholder Test Fixture'''
+class InterpreterTests(TestCase):
+    '''Interpreter Test Fixture'''
     instruction = {
         'value_string': '123',
         'value_int': 123

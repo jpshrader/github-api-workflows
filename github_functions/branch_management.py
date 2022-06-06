@@ -11,7 +11,7 @@ from github_services.branch_service import delete_branch_from_repo_by_branch, ge
 def branch_passes_filters(branch: Branch.Branch, include: list[str], exclude: list[str]):
     '''Determines whether a branch name is filtered by include/exclude rules'''
     include_passes = len(include) == 0
-    exclude_passes = len(exclude) == 0
+    exclude_fails = len(exclude) > 0
 
     for inc in include:
         inc = inc.strip()
@@ -20,10 +20,10 @@ def branch_passes_filters(branch: Branch.Branch, include: list[str], exclude: li
 
     for ex in exclude:
         ex = ex.strip()
-        if ex == '' or ex.lower() not in branch.name.lower():
-            exclude_passes = True
+        if ex == '' or ex.lower() in branch.name.lower():
+            exclude_fails = True
 
-    return include_passes and exclude_passes
+    return include_passes and not exclude_fails
 
 # MERGE AND PR BRANCH
 def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, to_branch: str, reviewers: list[str], labels: list[str]) -> None:
