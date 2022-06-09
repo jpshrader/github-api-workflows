@@ -3,7 +3,7 @@ from argparse import ArgumentError
 from typing import Dict
 
 from github import Github, Branch
-from github_functions.branch_management import identify_empty_branches, merge_branch_and_pr, identify_unprotected_branches
+from github_functions.branch_management import identify_empty_branches, merge_branch_and_pr, identify_unprotected_branches, delete_empty_branches as remove_empty_branches
 
 def retrieve_argument(instruction, argument: str, is_required: bool = True, default = None):
     '''Retrives an instruction argument - defaults to `default` if not required'''
@@ -48,6 +48,15 @@ def list_empty_branches(github: Github, instruction) -> None:
     empty_branches = identify_empty_branches(github, repo_name, target_branch=target_branch, include=include, exclude=exclude)
     print_branch_list(empty_branches, 'EMPTY', repo_name, include, exclude)
 
+def delete_empty_branches(github: Github, instruction) -> None:
+    '''Deletes all empty branches in a given repo'''
+    repo_name = retrieve_argument(instruction, 'repo_name')
+    target_branch = retrieve_argument(instruction, 'target_branch', is_required=False, default='')
+    include = retrieve_argument(instruction, 'include', is_required=False, default=[])
+    exclude = retrieve_argument(instruction, 'exclude', is_required=False, default=[])
+
+    remove_empty_branches(github, repo_name, target_branch=target_branch, include=include, exclude=exclude)
+
 def list_unprotected_branches(github: Github, instruction) -> None:
     '''Lists all branches that are not protected'''
     repo_name = retrieve_argument(instruction, 'repo_name')
@@ -65,6 +74,8 @@ def interpret_instructions(github: Github, instructions: Dict[str, object]) -> N
                 merge_branch(github, instruction)
             case 'list_empty_branches':
                 list_empty_branches(github, instruction)
+            case 'delete_empty_branches':
+                delete_empty_branches(github, instruction)
             case 'list_unprotected_branches':
                 list_unprotected_branches(github, instruction)
 

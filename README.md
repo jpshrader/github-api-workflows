@@ -74,7 +74,7 @@ This will of course vary on the types of operations you're performing, but at th
 
 ### Merge branches
 
-The `merge_branch` instruction creates a new branch (`merge-{from_branch}-to-{to_branch}-{timestamp}`) off of `from_branch`, and opens a pull request targeting `to_branch`. PR labels and reviewers can also be passed to this instruction
+The `merge_branch` instruction creates a new branch (`merge-{from_branch}-to-{to_branch}-{timestamp}`) off of `to_branch`, merges `from_branch` into that new branch, and then opens a pull request targeting `to_branch`. PR labels and reviewers can also be passed to this instruction
 
 Examples:
 ```
@@ -118,7 +118,32 @@ Examples:
 | Argument       | Description                                                      | Example Value                   | Required | Default Value          |
 |----------------|------------------------------------------------------------------|---------------------------------|----------|------------------------|
 | `repo_name`    | the full name of a repo (ex. `{owner}/{slug}`)                   | `jpshrader/github-api-workflows`| `true`   | `N/A`                  |
-| `target_branch`| name of the branch to diff against                               | `main`                          | `true`   | Default branch of repo |
+| `target_branch`| name of the branch to diff against                               | `main`                          | `false`  | Default branch of repo |
+| `include`      | a list of branch names to include (uses string contains to match)| `feature/`                      | `false`  | `[]`                   |
+| `exclude`      | a list of branch names to ignore (uses string contains to match) | `releases/`                     | `false`  | `[]`                   |
+
+### Delete Empty Branches
+
+The `delete_empty_branches` instruction iterates over every branch in a given repo and deletes all branches that are:
+ - Not protected
+ - Not the `target_branch`
+ - 0 commits ahead of `target_branch`
+
+Examples:
+```
+- action: delete_empty_branches
+  repo_name: jpshrader/github-api-workflows
+  target_branch: main
+  include:
+    - test
+  exclude: 
+    - jawn
+```
+
+| Argument       | Description                                                      | Example Value                   | Required | Default Value          |
+|----------------|------------------------------------------------------------------|---------------------------------|----------|------------------------|
+| `repo_name`    | the full name of a repo (ex. `{owner}/{slug}`)                   | `jpshrader/github-api-workflows`| `true`   | `N/A`                  |
+| `target_branch`| name of the branch to diff against                               | `main`                          | `false`  | Default branch of repo |
 | `include`      | a list of branch names to include (uses string contains to match)| `feature/`                      | `false`  | `[]`                   |
 | `exclude`      | a list of branch names to ignore (uses string contains to match) | `releases/`                     | `false`  | `[]`                   |
 
