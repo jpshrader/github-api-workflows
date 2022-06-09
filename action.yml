@@ -1,9 +1,9 @@
-name: 'GitHub Utility'
-description: 'Run a set of  GitHub Utility instructions'
+name: 'GitHub Api Workflows'
+description: 'Run a set of GitHub api workflow instructions'
 author: jpshrader
 inputs:
   instructions:
-    description: 'List of instructions for Github Utility to complete'
+    description: 'List of instructions for Github api workflows to run'
     type: string
     required: true
   file_type:
@@ -20,8 +20,8 @@ runs:
   steps:
     - uses: actions/checkout@v3
       with:
-        repository: jpshrader/github-utilities
-        path: utilities
+        repository: jpshrader/github-api-workflows
+        path: github-api-workflows
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
@@ -30,8 +30,8 @@ runs:
       shell: bash
       run: |
         python -m pip install --upgrade pip
-        pip install -r ./utilities/requirements.txt
+        pip install -r ./github-api-workflows/requirements.txt
     - name: Run application
       shell: bash
       run: |
-        python ./utilities/main.py --instructions ${{ inputs.instructions }} --file_type ${{ inputs.file_type }} --access_token ${{ inputs.access_token }} --base_path ./utilities/
+        python ./github-api-workflows/main.py --instructions ${{ inputs.instructions }} --file_type ${{ inputs.file_type }} --access_token ${{ inputs.access_token }} --base_path ./github-api-workflows/

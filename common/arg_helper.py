@@ -2,7 +2,7 @@
 import argparse
 from typing import Dict
 
-from file_helper import get_file, YAML_FILE_TYPE
+from common.file_helper import get_file, YAML_FILE_TYPE
 
 BASE_PATH_ARG = 'base_path'
 FILE_TYPE_ARG = 'file_type'

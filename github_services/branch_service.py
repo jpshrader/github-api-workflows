@@ -1,5 +1,5 @@
 '''GitHub Branch Service'''
-from github import Branch, Repository, Github, GitRef
+from github import Branch, Repository, Github, GitRef, Commit
 
 from github_services.repo_service import get_repo_by_full_name
 
@@ -46,6 +46,16 @@ def delete_branch_from_repo_by_branch(repo: Repository.Repository, branch: Branc
     '''Deletes a given branch of a given repo'''
     ref = repo.get_git_ref(f"refs/heads/{branch.name}")
     ref.delete()
+
+# MERGE BRANCHES
+def merge_branches(github: Github, repo_full_name: str, to_branch: str, from_branch: str, message: str) -> Commit.Commit | None:
+    '''Merges from_branch into to_branch'''
+    repo = get_repo_by_full_name(github, repo_full_name)
+    return merge_branches_from_repo(repo, to_branch, from_branch, message)
+
+def merge_branches_from_repo(repo: Repository.Repository, to_branch: str, from_branch: str, message: str) -> Commit.Commit | None:
+    '''Merges from_branch into to_branch'''
+    return repo.merge(to_branch, from_branch, message)
 
 # CREATE BRANCH
 def create_branch(github: Github, repo_full_name: str, origin_branch_name: str, new_branch_name: str) -> GitRef.GitRef:
