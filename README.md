@@ -74,7 +74,7 @@ This will of course vary on the types of operations you're performing, but at th
 
 ### Merge branches
 
-The `merge_branch` instruction creates a new branch (`merge-{from_branch}-to-{to_branch}-{timestamp}`) off of `to_branch`, merges `from_branch` into that new branch, and then opens a pull request targeting `to_branch`. PR labels and reviewers can also be passed to this instruction
+The `merge_branch` instruction checks whether there are changes to merge from `from_branch` to `to_branch`. If there are, it creates a new branch (`merge-{from_branch}-to-{to_branch}-{timestamp}`) off of `to_branch`, merges `from_branch` into that new branch, and then opens a pull request targeting `to_branch`. PR labels and reviewers can also be passed to this instruction
 
 Examples:
 ```
