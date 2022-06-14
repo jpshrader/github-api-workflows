@@ -3,18 +3,8 @@ from argparse import ArgumentError
 from typing import Dict
 
 from github import Github
-from github_interpreter.argument_interpreter import retrieve_argument
+from github_interpreter.release_interpreter import create_release
 from github_interpreter.branch_interpreter import merge_branch, list_empty_branches, delete_empty_branches, list_unprotected_branches
-
-def create_release(github: Github, instruction) -> None:
-    '''Creates a release branch'''
-    repo_name = retrieve_argument(instruction, 'repo_name')
-    from_branch = retrieve_argument(instruction, 'from_branch')
-    to_branch = retrieve_argument(instruction, 'to_branch')
-    tag = retrieve_argument(instruction, 'tag')
-    tag = retrieve_argument(instruction, 'tag')
-    reviewers = retrieve_argument(instruction, 'reviewers', is_required=False, default='')
-    labels = retrieve_argument(instruction, 'labels', is_required=False, default='')
 
 def interpret_instructions(github: Github, instructions: Dict[str, object]) -> None:
     '''Interprets and executes a sequence of instructions'''

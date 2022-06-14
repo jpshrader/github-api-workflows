@@ -3,7 +3,7 @@ from time import time
 from github import Github, Branch, Repository
 
 from github_services.user_service import get_current_user
-from github_services.comparison_service import is_branch_ahead
+from github_services.comparison_service import compare_branches_with_repo, is_branch_ahead, is_ahead
 from github_services.repo_service import get_repo_by_full_name
 from github_services.pull_request_service import create_pull_request_by_repo
 from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch_from_repo, get_branches_by_repo, merge_branches_from_repo
@@ -30,7 +30,7 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
     '''Opens a Pr to update a given branch'''
     new_from_branch = f'merge-{from_branch}-to-{to_branch}-{int(time())}'
     repo = get_repo_by_full_name(github, repo_full_name)
-    if is_branch_ahead(repo, to_branch, from_branch):
+    if is_ahead(compare_branches_with_repo(repo, to_branch, from_branch)):
         create_branch_from_repo(repo, to_branch, new_from_branch)
         merge_branches_from_repo(repo, new_from_branch, from_branch, f'Merge {from_branch} to {new_from_branch}')
 
