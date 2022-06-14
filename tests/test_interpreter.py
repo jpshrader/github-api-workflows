@@ -1,7 +1,7 @@
 '''Interpreter Tests'''
 from unittest import TestCase
 
-from github_interpreter.interpreter import retrieve_argument
+from github_interpreter.argument_interpreter import retrieve_argument
 
 class InterpreterTests(TestCase):
     '''Interpreter Test Fixture'''
