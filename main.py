@@ -2,8 +2,8 @@
 import common.settings_constants as constants
 
 from common.arg_helper import parse_args
-from common.interpreter import interpret_instructions
 from common.file_helper import get_file, JSON_FILE_TYPE
+from github_interpreter.interpreter import interpret_instructions
 
 from github_services.github_service_factory import get_github_service
 

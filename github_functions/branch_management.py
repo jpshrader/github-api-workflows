@@ -1,4 +1,4 @@
-'''Branch Management Service'''
+'''Branch management service'''
 from time import time
 from github import Github, Branch, Repository
 
