@@ -13,4 +13,3 @@ def create_release(github: Github, repo_full_name: str, from_branch: str, to_bra
     if is_branch_ahead_with_repo(repo, to_branch, from_branch):
         create_branch_from_repo(repo, to_branch, new_from_branch)
         merge_branches_from_repo(repo, new_from_branch, from_branch, f'Merge {from_branch} to {new_from_branch}')
-
