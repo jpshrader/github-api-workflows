@@ -31,6 +31,7 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
     new_from_branch = f'merge-{from_branch}-to-{to_branch}-{int(time())}'
     repo = get_repo_by_full_name(github, repo_full_name)
     if is_branch_ahead_with_repo(repo, to_branch, from_branch):
+        print(f'Changes found for {repo_full_name} ({to_branch} <= {from_branch}) - Opening PR')
         create_branch_from_repo(repo, to_branch, new_from_branch)
         merge_branches_from_repo(repo, new_from_branch, from_branch, f'Merge {from_branch} to {new_from_branch}')
 
@@ -48,6 +49,10 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
                 if reviewer != current_user.login:
                     reviewers_to_request.append(reviewer)
             pull_request.create_review_request(reviewers_to_request)
+
+        print(f'PR for {repo_full_name} opened: {pull_request.url}')
+    else:
+        print(f'No changes found for {repo_full_name} ({to_branch} <= {from_branch}) - Skipping...')
 
 # IDENTIFY UNPROTECTED BRANCHES
 def identify_unprotected_branches(github: Github, repo_full_name: str, include: list[str] = None, exclude: list[str] = None) -> list[Branch.Branch]:
