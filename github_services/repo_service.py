@@ -1,11 +1,13 @@
 '''GitHub Repository Service'''
 from github import Repository, Github
 
+from user_service import get_current_user
+
 # GET REPOS
 def get_user_repos(github: Github) -> list[Repository.Repository]:
     '''Returns all repos that the current user owns'''
     owned_repos = []
-    user = github.get_user()
+    user = get_current_user(github)
     repos = user.get_repos()
 
     for repo in repos:
@@ -24,7 +26,8 @@ def get_org_repo(github: Github, org_name: str, repo_name: str) -> Repository.Re
 
 def get_all_repos(github: Github) -> list[Repository.Repository]:
     '''Returns all repos that the current user has access to'''
-    return github.get_user().get_repos()
+    user = get_current_user(github)
+    return user.get_repos()
 
 # GET REPO
 def get_repo_by_full_name(github: Github, repo_full_name: str) -> Repository.Repository:

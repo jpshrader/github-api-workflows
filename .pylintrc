@@ -4,4 +4,5 @@ max-args=10
 
 disable=
     unsupported-binary-operation,
-    consider-using-with
+    consider-using-with,
+    bare-except
