@@ -19,6 +19,20 @@ References:
 - [License](LICENSE)
 - [Security Policy](SECURITY.md)
 
+## Development
+
+### Linting
+
+To perform linting, run the following command in the root of the project. Linting rules are managed in the `.pylintrc` file.
+
+`pylint $(git ls-files '*.py')`
+
+### Testing
+
+To run tests, execute the following command in the root of the project.
+
+`pytest`
+
 ## Usage 
 
 Working examples: https://github.com/jpshrader/github-api-workflow-examples

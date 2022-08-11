@@ -1,7 +1,7 @@
 '''GitHub Repository Service'''
 from github import Repository, Github
 
-from user_service import get_current_user
+from github_services.user_service import get_current_user
 
 # GET REPOS
 def get_user_repos(github: Github) -> list[Repository.Repository]:
