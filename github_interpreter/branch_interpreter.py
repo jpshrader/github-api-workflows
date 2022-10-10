@@ -24,8 +24,9 @@ def merge_branch(github: Github, instruction) -> None:
     to_branch = retrieve_argument(instruction, 'to_branch')
     reviewers = retrieve_argument(instruction, 'reviewers', is_required=False, default=[])
     labels = retrieve_argument(instruction, 'labels', is_required=False, default=[])
+    title = retrieve_argument(instruction, 'title', is_required=False, default=f'Merge {from_branch} to {to_branch}')
 
-    merge_branch_and_pr(github, repo_name, from_branch, to_branch, reviewers, labels)
+    merge_branch_and_pr(github, repo_name, from_branch, to_branch, reviewers, labels, title)
 
 def list_empty_branches(github: Github, instruction) -> None:
     '''Lists all empty branches in a given repo'''

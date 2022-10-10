@@ -88,7 +88,7 @@ This will of course vary on the types of operations you're performing, but at th
 
 ### Merge branches
 
-The `merge_branch` instruction checks whether there are changes to merge from `from_branch` to `to_branch`. If there are, it creates a new branch (`merge-{from_branch}-to-{to_branch}-{timestamp}`) off of `to_branch`, merges `from_branch` into that new branch, and then opens a pull request targeting `to_branch`. PR labels and reviewers can also be passed to this instruction
+The `merge_branch` instruction checks whether there are changes to merge from `from_branch` to `to_branch`. If there are, it creates a new branch (`merge-{from_branch}-to-{to_branch}-{timestamp}`) off of `to_branch`, merges `from_branch` into that new branch, and then opens a pull request targeting `to_branch`. The title, labels, and reviewers of the resulting PR can also be passed to this instruction.
 
 Examples:
 ```
@@ -96,6 +96,7 @@ Examples:
   repo_name: jpshrader/github-api-workflows
   from_branch: main
   to_branch: test
+  title: merge
   labels:
     - bug
     - documentation
@@ -103,13 +104,14 @@ Examples:
     - jpshrader
 ```
 
-| Argument      | Description                                    | Example Value                    | Required | Default Value |
-|---------------|------------------------------------------------|----------------------------------|----------|---------------|
-| `repo_name`   | the full name of a repo (ex. `{owner}/{slug}`) | `jpshrader/github-api-workflows` | `true`   | `N/A`         |
-| `from_branch` | name of the origin branch                      | `main`                           | `true`   | `N/A`         |
-| `to_branch`   | name of the destination branch                 | `main`                           | `true`   | `N/A`         |
-| `labels`      | a list of label names to add to the PR         | `bug`                            | `false`  | `[]`          |
-| `reviewers`   | a list of user logins to request reviews from  | `jpshrader`                      | `false`  | `[]`          |
+| Argument      | Description                                    | Example Value                    | Required | Default Value                        |
+|---------------|------------------------------------------------|----------------------------------|----------|--------------------------------------|
+| `repo_name`   | the full name of a repo (ex. `{owner}/{slug}`) | `jpshrader/github-api-workflows` | `true`   | `N/A`                                |
+| `from_branch` | name of the origin branch                      | `main`                           | `true`   | `N/A`                                |
+| `to_branch`   | name of the destination branch                 | `main`                           | `true`   | `N/A`                                |
+| `title    `   | title of the resulting PR                      | `merge branch`                   | `false`  | `Merge {from_branch} to {to_branch}` |
+| `labels`      | a list of label names to add to the PR         | `bug`                            | `false`  | `[]`                                 |
+| `reviewers`   | a list of user logins to request reviews from  | `jpshrader`                      | `false`  | `[]`                                 |
 
 ### List Empty Branches
 
