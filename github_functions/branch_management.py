@@ -51,11 +51,11 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
                         reviewers_to_request.append(reviewer)
                 pull_request.create_review_request(reviewers_to_request)
 
-            print(f'PR for {repo_full_name} ({to_branch} <= {from_branch}) opened: {pull_request.url}!')
+            print(f'SUCCESS: PR for {repo_full_name} ({to_branch} <= {from_branch}) opened: {pull_request.url}!')
         except:
-            print(f'Failed to create PR for {repo_full_name} ({to_branch} <= {from_branch})!')
+            print(f'FAILURE: Unable to create PR for {repo_full_name} ({to_branch} <= {from_branch})!')
     else:
-        print(f'No changes found for {repo_full_name} ({to_branch} <= {from_branch}) - Skipping...')
+        print(f'SKIPPING: No changes found for {repo_full_name} ({to_branch} <= {from_branch})')
 
 # IDENTIFY UNPROTECTED BRANCHES
 def identify_unprotected_branches(github: Github, repo_full_name: str, include: list[str] = None, exclude: list[str] = None) -> list[Branch.Branch]:
