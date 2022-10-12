@@ -172,7 +172,7 @@ Examples:
 - action: list_unprotected_branches
   repo_name: jpshrader/github-api-workflows
   include:
-    -test
+    - test
   exclude: 
     - jawn
 ```
@@ -182,3 +182,24 @@ Examples:
 | `repo_name` | the full name of a repo (ex. `{owner}/{slug}`)                    | `jpshrader/github-api-workflows` | `true`   | `N/A`                  |
 | `include`   | a list of branch names to include (uses string contains to match) | `feature/`                       | `false`  | `[]`                   |
 | `exclude`   | a list of branch names to ignore (uses string contains to match)  | `releases/`                      | `false`  | `[]`                   |
+
+### Create Label
+
+The `create_label` instruction creates a given label across a number of repos. If the label already exists, it will update the label with the provided color/description.
+
+Examples:
+```
+- action: create_label
+  name: example
+  color: f29513
+  description: 'label for examples'
+  repos:
+    - jpshrader/github-api-workflows
+```
+
+| Argument      | Description                                     | Example Value                    | Required | Default Value |
+|---------------|-------------------------------------------------|----------------------------------|----------|---------------|
+| `name`        | the name of the label                           | `example`                        | `true`   | `N/A`         |
+| `color`       | hex color code of the label (not including '#') | `f29513`                         | `true`   | `N/A`         |
+| `description` | description of the label                        | `label for examples`             | `false`  |               |
+| `repos`       | list of repos to create the label               | `jpshrader/github-api-workflows` | `true`   | `N/A`         |
