@@ -185,7 +185,7 @@ Examples:
 
 ### Create Label
 
-The `create_label` instruction creates a given label across a number of repos. If the label already exists, it will update the label with the provided color/description.
+The `create_label` instruction creates a given label across a list of repos. If the label already exists, it will update the existing label with the provided color/description.
 
 Examples:
 ```
