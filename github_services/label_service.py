@@ -34,14 +34,12 @@ def create_label_from_repo(repo: Repository.Repository, label_name: str, label_c
     return repo.create_label(label_name, label_color, label_description)
 
 # UPDATE LABEL
-def update_label(github: Github, repo_full_name: str, label_name: str, label_color: str, label_description: str) -> bool:
+def update_label(github: Github, repo_full_name: str, label_name: str, label_color: str, label_description: str) -> None:
     '''Updates a given label in a given repo'''
     repo = get_repo_by_full_name(github, repo_full_name)
     label = repo.get_label(label_name)
-    return update_label_from_repo(label, label_color, label_description)
+    update_label_from_repo(label, label_color, label_description)
 
-def update_label_from_repo(label: Label.Label, label_color: str, label_description: str) -> bool:
+def update_label_from_repo(label: Label.Label, label_color: str, label_description: str) -> None:
     '''Updates a given label'''
-    label.color = label_color
-    label.description = label_description
-    return label.update()
+    label.edit(label.name, label_color, label_description)
