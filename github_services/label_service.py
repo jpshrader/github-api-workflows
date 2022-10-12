@@ -23,7 +23,7 @@ def get_label_from_repo(repo: Repository.Repository, label_name: str) -> Label.L
     '''Returns a label from a given repo'''
     return repo.get_label(label_name)
 
-#CREATE LABEL
+# CREATE LABEL
 def create_label(github: Github, repo_full_name: str, label_name: str, label_color: str, label_description: str) -> Label.Label:
     '''Creates a label in a given repo'''
     repo = get_repo_by_full_name(github, repo_full_name)
@@ -33,7 +33,7 @@ def create_label_from_repo(repo: Repository.Repository, label_name: str, label_c
     '''Creates a label in a given repo'''
     return repo.create_label(label_name, label_color, label_description)
 
-#UPDATE LABEL
+# UPDATE LABEL
 def update_label(github: Github, repo_full_name: str, label_name: str, label_color: str, label_description: str) -> bool:
     '''Updates a given label in a given repo'''
     repo = get_repo_by_full_name(github, repo_full_name)
