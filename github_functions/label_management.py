@@ -8,10 +8,10 @@ def create_or_update_label(github: Github, label_name: str, label_color: str, la
     for repo in repos:
         if label_exists(github, repo, label_name):
             update_label(github, repo, label_name, label_color, label_description)
-            print(f'UPDATED label {label_name} on {repo}')
+            print(f'UPDATED label `{label_name}` on `{repo}`')
         else:
             create_label(github, repo, label_name, label_color, label_description)
-            print(f'CREATED label {label_name} on {repo}')
+            print(f'CREATED label `{label_name}` on `{repo}`')
 
 def label_exists(github: Github, repo_full_name: str, label_name: str) -> bool:
     '''Determines whether a given label exists in a given repo'''
