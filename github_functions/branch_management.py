@@ -6,7 +6,7 @@ from github_services.user_service import get_current_user
 from github_services.comparison_service import is_ahead_with_branch, is_branch_ahead_with_repo
 from github_services.repo_service import get_repo_by_full_name
 from github_services.pull_request_service import create_pull_request_by_repo
-from github_services.branch_service import delete_branch_from_repo, delete_branch_from_repo_by_branch, get_branch_from_list, create_branch_from_repo, get_branches_by_repo, merge_branches_from_repo
+from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch_from_repo, get_branches_by_repo, merge_branches_from_repo
 
 def branch_passes_filters(branch: Branch.Branch, include: list[str], exclude: list[str]):
     '''Determines whether a branch name is filtered by include/exclude rules'''
