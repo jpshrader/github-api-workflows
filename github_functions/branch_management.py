@@ -48,8 +48,6 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
                 print(f'FAILURE: Unable to create PR for {repo_full_name} ({to_branch} <= {from_branch})! An unexpected error occurred')
         except:
             print(f'FAILURE: Unable to create PR for {repo_full_name} ({to_branch} <= {from_branch})! An unexpected error occurred')
-        finally:
-            delete_branch_from_repo(repo, new_from_branch)
     else:
         print(f'SKIPPING: No changes found for {repo_full_name} ({to_branch} <= {from_branch})')
 
