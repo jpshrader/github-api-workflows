@@ -1,6 +1,6 @@
 '''Branch management service'''
 from time import time
-from github import Github, Branch, Repository, GithubException, PullRequest, UnknownObjectException
+from github import Github, Branch, Repository, GithubException, PullRequest
 
 from github_services.user_service import get_current_user
 from github_services.comparison_service import is_ahead_with_branch, is_branch_ahead_with_repo
@@ -33,8 +33,9 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
 
     try:
         get_branch_from_repo(repo, to_branch)
-    except UnknownObjectException:
-        print(f'SKIPPING: No branch {to_branch} found in {repo_full_name}')
+    except GithubException as exp:
+        if exp.status == 404:
+            print(f'SKIPPING: No branch {to_branch} found in {repo_full_name}')
 
     if is_branch_ahead_with_repo(repo, to_branch, from_branch):
         print(f'Changes found for {repo_full_name} ({to_branch} <= {from_branch}) - Opening PR...')
