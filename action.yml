@@ -6,10 +6,6 @@ inputs:
     description: 'List of instructions for Github api workflows to run'
     type: string
     required: true
-  file_type:
-    description: 'Type of file being read in'
-    type: string
-    required: true
   access_token:
     description: 'GitHub Api Access Token'
     type: string
