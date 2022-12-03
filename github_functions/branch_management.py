@@ -1,12 +1,12 @@
 '''Branch management service'''
 from time import time
-from github import Github, Branch, Repository, GithubException, PullRequest
+from github import Github, Branch, Repository, GithubException, PullRequest, UnknownObjectException
 
 from github_services.user_service import get_current_user
 from github_services.comparison_service import is_ahead_with_branch, is_branch_ahead_with_repo
 from github_services.repo_service import get_repo_by_full_name
 from github_services.pull_request_service import create_pull_request_by_repo
-from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch_from_repo, get_branches_by_repo, merge_branches_from_repo
+from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch_from_repo, get_branches_by_repo, merge_branches_from_repo, get_branch_from_repo
 
 def branch_passes_filters(branch: Branch.Branch, include: list[str], exclude: list[str]):
     '''Determines whether a branch name is filtered by include/exclude rules'''
@@ -30,6 +30,12 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
     '''Opens a Pr to update a given branch'''
     new_from_branch = f'merge-{from_branch}-to-{to_branch}-{int(time())}'
     repo = get_repo_by_full_name(github, repo_full_name)
+
+    try:
+        get_branch_from_repo(repo, to_branch)
+    except UnknownObjectException:
+        print(f'SKIPPING: No branch {to_branch} found in {repo_full_name}')
+
     if is_branch_ahead_with_repo(repo, to_branch, from_branch):
         print(f'Changes found for {repo_full_name} ({to_branch} <= {from_branch}) - Opening PR...')
 
