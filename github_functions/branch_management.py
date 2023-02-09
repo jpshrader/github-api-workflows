@@ -37,6 +37,12 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
         if exp.status == 404:
             print(f'SKIPPING: No branch {to_branch} found in {repo_full_name}')
             return
+    try:
+        get_branch_from_repo(repo, from_branch)
+    except GithubException as exp:
+        if exp.status == 404:
+            print(f'SKIPPING: No branch {from_branch} found in {repo_full_name}')
+            return
 
     if is_branch_ahead_with_repo(repo, to_branch, from_branch):
         print(f'Changes found for {repo_full_name} ({to_branch} <= {from_branch}) - Opening PR...')
