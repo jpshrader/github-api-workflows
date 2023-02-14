@@ -21,25 +21,34 @@ def compare_branches_with_repo_and_branches(repo: Repository.Repository, to_bran
     return repo.compare(to_branch.commit.commit.sha, from_branch.commit.commit.sha)
 
 # COMPARE BRANCHES
-def is_branch_ahead(github: Github, repo_full_name: str, to_branch: str, from_branch: str) -> bool:
-    '''Determines whether from_branch is 1 or more commits ahead of to_branch'''
+def does_branch_have_changes(github: Github, repo_full_name: str, to_branch: str, from_branch: str) -> bool:
+    '''Determines whether from_branch has 1 or more commits and 1 or more changed files compared to to_branch'''
     comparison = compare_branches(github, repo_full_name, to_branch, from_branch)
-    return is_ahead(comparison)
+    return is_ahead_by_commits(comparison) and has_file_changes(comparison)
 
-def is_branch_ahead_with_repo(repo: Repository.Repository, to_branch: str, from_branch: str) -> bool:
-    '''Determines whether from_branch is 1 or more commits ahead of to_branch'''
+def does_branch_have_changes_with_branch(repo: Repository.Repository, to_branch: Branch.Branch, from_branch: Branch.Branch) -> bool:
+    '''Determines whether from_branch has 1 or more commits and 1 or more changed files compared to to_branch'''
+    comparison = compare_branches_with_repo_and_branches(repo, to_branch, from_branch)
+    return is_ahead_by_commits(comparison) and has_file_changes(comparison)
+
+def does_branch_have_changes_with_repo(repo: Repository.Repository, to_branch: str, from_branch: str) -> bool:
+    '''Determines whether from_branch has 1 or more commits and 1 or more changed files compared to to_branch'''
     comparison = compare_branches_with_repo(repo, to_branch, from_branch)
-    return is_ahead(comparison)
+    return is_ahead_by_commits(comparison) and has_file_changes(comparison)
 
 # COMPARISON UTILS
-def is_ahead(comparison: Comparison.Comparison) -> bool:
+def is_ahead_by_commits(comparison: Comparison.Comparison) -> bool:
     '''Branch is 1 or more commits ahead of target'''
     return comparison.ahead_by > 0
 
-def is_ahead_with_branch(repo: Repository.Repository, to_branch: Branch.Branch, from_branch: Branch.Branch) -> bool:
+def has_file_changes(comparison: Comparison.Comparison) -> bool:
+    '''Branch is 1 or more commits ahead of target'''
+    return len(comparison.files) > 0
+
+def is_ahead_by_commits_with_branch(repo: Repository.Repository, to_branch: Branch.Branch, from_branch: Branch.Branch) -> bool:
     '''Branch is 1 or more commits ahead of target'''
     comparison = compare_branches_with_repo_and_branches(repo, to_branch, from_branch)
-    return is_ahead(comparison)
+    return is_ahead_by_commits(comparison)
 
 def is_behind(comparison: Comparison.Comparison) -> bool:
     '''Branch is 1 or more commits behind target'''

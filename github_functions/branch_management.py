@@ -3,7 +3,7 @@ from time import time
 from github import Github, Branch, Repository, GithubException, PullRequest
 
 from github_services.user_service import get_current_user
-from github_services.comparison_service import is_ahead_with_branch, is_branch_ahead_with_repo
+from github_services.comparison_service import does_branch_have_changes_with_repo, does_branch_have_changes_with_branch
 from github_services.repo_service import get_repo_by_full_name
 from github_services.pull_request_service import create_pull_request_by_repo
 from github_services.branch_service import delete_branch_from_repo_by_branch, get_branch_from_list, create_branch_from_repo, get_branches_by_repo, merge_branches_from_repo, get_branch_from_repo
@@ -44,7 +44,7 @@ def merge_branch_and_pr(github: Github, repo_full_name: str, from_branch: str, t
             print(f'SKIPPING: No branch {from_branch} found in {repo_full_name}')
             return
 
-    if is_branch_ahead_with_repo(repo, to_branch, from_branch):
+    if does_branch_have_changes_with_repo(repo, to_branch, from_branch):
         print(f'Changes found for {repo_full_name} ({to_branch} <= {from_branch}) - Opening PR...')
 
         try:
@@ -116,7 +116,7 @@ def identify_empty_branches_with_repo(repo: Repository.Repository, target_branch
     target = get_branch_from_list(branches, target_branch)
 
     for branch in branches:
-        if target.name != branch.name and not(branch.protected) and not is_ahead_with_branch(repo, target, branch) and branch_passes_filters(branch, include, exclude):
+        if target.name != branch.name and not(branch.protected) and not does_branch_have_changes_with_branch(repo, target, branch) and branch_passes_filters(branch, include, exclude):
             empty_branches.append(branch)
 
     return empty_branches
