@@ -1,6 +1,6 @@
 # GitHub Api Workflows
 
-## Deprecction Notice
+## Deprecation Notice
 
 27 March 2023 Replacement: https://github.com/jpshrader/github-workflows
 
