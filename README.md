@@ -1,5 +1,9 @@
 # GitHub Api Workflows
 
+## Deprecction Notice
+
+27 March 2023 Replacement: https://github.com/jpshrader/github-workflows
+
 ## Setup
 
 This project utilises Visual Studio Dev Containers to manage dependencies. For more information on VS Code Development Containers, see the following:
